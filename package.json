@@ -1,0 +1,13 @@
+{
+	"name": "Js.Edgar",
+	"version": "0.0.1-alpha",
+	"description": "Lightweight Spy/Mock Library for JavaScript",
+	"author": {
+		"name": "Jordan Hawker",
+		"email": "Hawker.Jordan@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/elwayman02/Js.Edgar.git"
+	}
+}
