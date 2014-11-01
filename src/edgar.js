@@ -110,126 +110,133 @@
 	 * @param invoke
 	 * @constructor
 	 */
-	Edgar.Spy = function(obj, method, value, invoke) {
-		this.obj = obj;
-		this.name = method;
-		this.method = obj[method];
-		this.execute = false;
+	Edgar.Spy = (function() {
+		var self;
 
-		if (typeof value === 'function' && invoke) {
-			this.invoke = value;
-		} else {
-			this.value = value;
-		}
+		function Spy(obj, method, value, invoke) {
+			self = this;
+			self.obj = obj;
+			self.name = method;
+			self.method = obj[method];
+			self.execute = false;
 
-		this.calls = [];
-
-		obj[method] = this.mock;
-	};
-
-	/**
-	 *
-	 * @returns {*}
-	 */
-	Edgar.Spy.prototype.mock = function() {
-		var args = arguments,
-			call = {
-				args: args
-			};
-
-		if (this.execute) {
-			call.returned = this.method.apply(this.obj, args);
-		} else if (this.invoke) {
-			call.returned = this.invoke.apply(this.obj, args);
-		} else {
-			call.returned = this.value;
-		}
-
-		this.calls.push(call);
-
-		return call.returned;
-	};
-
-	/**
-	 *
-	 * @type {Function}
-	 */
-	Edgar.Spy.prototype.andExecute = Edgar.Spy.prototype.startExecuting = function() {
-		this.execute = true;
-	};
-
-	/**
-	 *
-	 * @type {Function}
-	 */
-	Edgar.Spy.prototype.andMock = Edgar.Spy.prototype.startMocking = function() {
-		this.execute = false;
-	};
-
-	/**
-	 *
-	 * @returns {Number}
-	 */
-	Edgar.Spy.prototype.called = function() {
-		return this.calls.length;
-	};
-
-	/**
-	 *
-	 * @param id
-	 * @returns {*}
-	 */
-	Edgar.Spy.prototype.calledWith = function(id) {
-		if (id) {
-			if (id >= 0 && id < this.calls.length) {
-				return this.calls[id].args;
+			if (typeof value === 'function' && invoke) {
+				self.invoke = value;
+			} else {
+				self.value = value;
 			}
-			throw 'Cannot get arguments for invalid call index.';
-		} else {
-			return this.calls[this.calls.length - 1].args;
-		}
-	};
 
-	/**
-	 *
-	 * @param id
-	 * @returns {*}
-	 */
-	Edgar.Spy.prototype.returnedWith = function(id) {
-		if (id) {
-			if (id >= 0 && id < this.calls.length) {
-				return this.calls[id].returned;
+			self.calls = [];
+
+			obj[method] = self.mock;
+		};
+
+		/**
+		 *
+		 * @returns {*}
+		 */
+		Spy.prototype.mock = function() {
+			var args = arguments,
+				call = {
+					args: args
+				};
+
+			if (self.execute) {
+				call.returned = self.method.apply(self.obj, args);
+			} else if (self.invoke) {
+				call.returned = self.invoke.apply(self.obj, args);
+			} else {
+				call.returned = self.value;
 			}
-			throw 'Cannot get return value for invalid call index.';
-		} else {
-			return this.calls[this.calls.length - 1].returned;
-		}
-	};
 
-	/**
-	 *
-	 * @returns {Array}
-	 */
-	Edgar.Spy.prototype.reset = function() {
-		var calls = this.calls;
-		this.calls = [];
+			self.calls.push(call);
 
-		return calls;
-	};
+			return call.returned;
+		};
 
-	/**
-	 *
-	 */
-	Edgar.Spy.prototype.release = function() {
-		this.obj[this.name] = this.method;
-	};
+		/**
+		 *
+		 * @type {Function}
+		 */
+		Spy.prototype.andExecute = Spy.prototype.startExecuting = function() {
+			self.execute = true;
+		};
 
-	/**
-	 *
-	 */
-	Edgar.Spy.prototype.restore = function() {
-		this.obj[this.name] = this.mock;
-	};
+		/**
+		 *
+		 * @type {Function}
+		 */
+		Spy.prototype.andMock = Spy.prototype.startMocking = function() {
+			self.execute = false;
+		};
+
+		/**
+		 *
+		 * @returns {Number}
+		 */
+		Spy.prototype.called = function() {
+			return self.calls.length;
+		};
+
+		/**
+		 *
+		 * @param id
+		 * @returns {*}
+		 */
+		Spy.prototype.calledWith = function(id) {
+			if (id) {
+				if (id >= 0 && id < self.calls.length) {
+					return self.calls[id].args;
+				}
+				throw 'Cannot get arguments for invalid call index.';
+			} else {
+				return self.calls[self.calls.length - 1].args;
+			}
+		};
+
+		/**
+		 *
+		 * @param id
+		 * @returns {*}
+		 */
+		Spy.prototype.returnedWith = function(id) {
+			if (id) {
+				if (id >= 0 && id < self.calls.length) {
+					return self.calls[id].returned;
+				}
+				throw 'Cannot get return value for invalid call index.';
+			} else {
+				return self.calls[self.calls.length - 1].returned;
+			}
+		};
+
+		/**
+		 *
+		 * @returns {Array}
+		 */
+		Spy.prototype.reset = function() {
+			var calls = self.calls;
+			self.calls = [];
+
+			return calls;
+		};
+
+		/**
+		 *
+		 */
+		Spy.prototype.release = function() {
+			self.obj[self.name] = self.method;
+		};
+
+		/**
+		 *
+		 */
+		Spy.prototype.restore = function() {
+			self.obj[self.name] = self.mock;
+		};
+
+		return Spy;
+	})();
 
 	/**
 	 *
