@@ -223,7 +223,7 @@ test('Release - stops spying on method and returns original functionality', func
 	assert.equal(spy.called(), 1, 'spy still has one call, because the method was released');
 });
 
-test('Restore - resumes spying on method', function(assert) {
+test('Resume - resumes spying on method', function(assert) {
 	var value = 'stuff',
 		spy = Edgar.createSpy(obj, 'foo', value),
 		result = obj.foo();
@@ -234,7 +234,7 @@ test('Restore - resumes spying on method', function(assert) {
 	assert.notEqual(result, value, 'original method executes');
 	assert.equal(spy.called(), 1, 'spy only has one call, because the method was released');
 
-	spy.restore();
+	spy.resume();
 	result = obj.foo();
 	assert.equal(result, value, 'spy mock was restored');
 	assert.equal(spy.called(), 2, 'spy registered a second call after restore');

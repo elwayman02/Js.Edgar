@@ -5,7 +5,7 @@
  * @author  Jordan Hawker <hawker.jordan@gmail.com>
  */
 
-(function () {
+(function() {
 	Edgar = {
 		spies: {},
 		mocks: {},
@@ -155,9 +155,12 @@
 			return call.returned;
 		};
 
-		Spy.prototype.andInvoke = function() {
-			self.invoke = true;
-			return self;
+		Spy.prototype.andInvoke = Spy.prototype.startInvoking = function() {
+			if (typeof this.value === 'function') {
+				self.invoke = true;
+				return self;
+			}
+			throw 'Cannot invoke value that is not a function.';
 		};
 
 		/**
@@ -240,7 +243,7 @@
 		/**
 		 *
 		 */
-		Spy.prototype.restore = function() {
+		Spy.prototype.resume = function() {
 			self.obj[self.name] = self.mock;
 		};
 
@@ -262,14 +265,14 @@
 	};
 
 	if (typeof QUnit !== 'undefined') {
-		QUnit.testDone(function () {
+		QUnit.testDone(function() {
 			Edgar.releaseAll();
 			Edgar.removeSpies();
 		});
 	}
 
 	if (typeof mocha !== 'undefined') {
-		mocha.afterEach(function () {
+		mocha.afterEach(function() {
 			Edgar.releaseAll();
 			Edgar.removeSpies();
 		});
