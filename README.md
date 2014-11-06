@@ -10,7 +10,12 @@ This library is meant to create, manage, and direct spies for testing JavaScript
 
 Install with npm:
 ```
-TBA
+npm install js.edgar
+```
+
+Install with bower:
+```
+bower install js.edgar
 ```
 
 Add the edgar.js script to your html:
