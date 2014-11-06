@@ -6,10 +6,27 @@
 		"name": "Jordan Hawker",
 		"email": "Hawker.Jordan@gmail.com"
 	},
+	"homepage": "https://github.com/elwayman02/Js.Edgar",
+	"bugs": {
+		"mail": "Hawker.Jordan@gmail.com",
+		"url": "https://github.com/elwayman02/Js.Edgar/issues/"
+	},
 	"repository": {
 		"type": "git",
 		"url": "git://github.com/elwayman02/Js.Edgar.git"
 	},
+	"license": "MIT",
+	"keywords": [
+		"javascript",
+		"ecmascript",
+		"test",
+		"testing",
+		"mock",
+		"mocking",
+		"spy",
+		"spies"
+	],
+	"main": "./src/edgar.js",
 	"devDependencies": {
 		"qunitjs": "~1.15.0"
 	}
