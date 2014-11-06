@@ -6,7 +6,7 @@
  */
 
 (function () {
-	var Edgar = {
+	Edgar = {
 		spies: {},
 		mocks: {},
 
@@ -50,10 +50,9 @@
 		 * @param obj
 		 * @param method
 		 * @param value
-		 * @param invoke
 		 * @returns {Edgar.Spy}
 		 */
-		createSpy: function(obj, method, value, invoke) {
+		createSpy: function(obj, method, value) {
 			var type = typeof obj,
 				spy;
 
@@ -63,8 +62,10 @@
 				if (typeof method === 'string') { // Create a normal spy
 					spy = this.getSpy(obj, method);
 					if (!spy) { // Don't create a new spy if one already exists for this method
-						spy = new this.Spy(obj, method, value, invoke);
+						spy = new this.Spy(obj, method, value);
 						this.addSpy(spy, method);
+					} else if (value !== undefined) {
+						spy.value = value; // Update the value if a new one was passed in
 					}
 					return spy;
 				}
@@ -98,6 +99,10 @@
 					}
 				}
 			}
+		},
+
+		removeSpies: function() {
+			this.spies = {};
 		}
 	};
 
@@ -113,23 +118,19 @@
 	Edgar.Spy = (function() {
 		var self;
 
-		function Spy(obj, method, value, invoke) {
+		function Spy(obj, method, value) {
 			self = this;
 			self.obj = obj;
 			self.name = method;
 			self.method = obj[method];
+			self.value = value;
 			self.execute = false;
-
-			if (typeof value === 'function' && invoke) {
-				self.invoke = value;
-			} else {
-				self.value = value;
-			}
+			self.invoke = null;
 
 			self.calls = [];
 
 			obj[method] = self.mock;
-		};
+		}
 
 		/**
 		 *
@@ -144,7 +145,7 @@
 			if (self.execute) {
 				call.returned = self.method.apply(self.obj, args);
 			} else if (self.invoke) {
-				call.returned = self.invoke.apply(self.obj, args);
+				call.returned = self.value.apply(self.obj, args);
 			} else {
 				call.returned = self.value;
 			}
@@ -154,12 +155,18 @@
 			return call.returned;
 		};
 
+		Spy.prototype.andInvoke = function() {
+			self.invoke = true;
+			return self;
+		};
+
 		/**
 		 *
 		 * @type {Function}
 		 */
 		Spy.prototype.andExecute = Spy.prototype.startExecuting = function() {
 			self.execute = true;
+			return self;
 		};
 
 		/**
@@ -168,6 +175,7 @@
 		 */
 		Spy.prototype.andMock = Spy.prototype.startMocking = function() {
 			self.execute = false;
+			return self;
 		};
 
 		/**
@@ -184,14 +192,15 @@
 		 * @returns {*}
 		 */
 		Spy.prototype.calledWith = function(id) {
-			if (id) {
+			if (id !== undefined && id !== null) {
 				if (id >= 0 && id < self.calls.length) {
 					return self.calls[id].args;
 				}
 				throw 'Cannot get arguments for invalid call index.';
-			} else {
+			} else if (self.calls.length) {
 				return self.calls[self.calls.length - 1].args;
 			}
+			throw 'Cannot get arguments, spy has not been called.';
 		};
 
 		/**
@@ -200,7 +209,7 @@
 		 * @returns {*}
 		 */
 		Spy.prototype.returnedWith = function(id) {
-			if (id) {
+			if (id !== undefined && id !== null) {
 				if (id >= 0 && id < self.calls.length) {
 					return self.calls[id].returned;
 				}
@@ -251,4 +260,18 @@
 
 		return mock;
 	};
+
+	if (typeof QUnit !== 'undefined') {
+		QUnit.testDone(function () {
+			Edgar.releaseAll();
+			Edgar.removeSpies();
+		});
+	}
+
+	if (typeof mocha !== 'undefined') {
+		mocha.afterEach(function () {
+			Edgar.releaseAll();
+			Edgar.removeSpies();
+		});
+	}
 }).call(this);
