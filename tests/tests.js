@@ -69,6 +69,23 @@ test('Multiple calls', function(assert) {
 	assert.equal(spy.called(), 2, 'foo was called twice');
 });
 
+test('Multiple spies', function(assert) {
+	obj.bar = function () { return 'foo'; };
+
+	var fooSpy = Edgar.createSpy(obj, 'foo'),
+		barSpy = Edgar.createSpy(obj, 'bar'),
+		val1 = 'thing',
+		val2 = 'stuff';
+
+	obj.foo(val1);
+	obj.bar(val2);
+
+	assert.equal(fooSpy.called(), 1, 'foo was called once');
+	assert.equal(barSpy.called(), 1, 'bar was called once');
+	assert.equal(fooSpy.calledWith()[0], val1, 'foo was called with val1');
+	assert.equal(barSpy.calledWith()[0], val2, 'bar was called with val2');
+});
+
 module('Argument Tracking', { setup: setup });
 
 test('Single argument', function(assert) {
