@@ -16,7 +16,7 @@ test('Basic Spy', function(assert) {
 	var spy = Edgar.createSpy(obj, 'foo'),
 		result = obj.foo();
 
-	assert.ok(spy.called(), 'foo was called');
+	assert.equal(spy.called(), 1, 'foo was called');
 	assert.equal(result, undefined, 'spy returned undefined by default');
 });
 
@@ -25,7 +25,19 @@ test('Return value', function(assert) {
 		spy = Edgar.createSpy(obj, 'foo', value),
 		result = obj.foo();
 
-	assert.ok(spy.called(), 'foo was called');
+	assert.equal(spy.called(), 1, 'foo was called');
+	assert.equal(result, value, 'spy returned value that was passed');
+});
+
+test('Return value set with startMocking', function(assert) {
+	var value = 'stuff',
+		spy = Edgar.createSpy(obj, 'foo').andExecute(),
+		result;
+
+	spy.startMocking(value);
+	result = obj.foo();
+
+	assert.equal(spy.called(), 1, 'foo was called');
 	assert.equal(result, value, 'spy returned value that was passed');
 });
 
@@ -35,7 +47,7 @@ test('Return function', function(assert) {
 		spy = Edgar.createSpy(obj, 'foo', func),
 		result = obj.foo();
 
-	assert.ok(spy.called(), 'foo was called');
+	assert.equal(spy.called(), 1, 'foo was called');
 	assert.equal(result, func, 'spy returned function that was passed');
 	assert.equal(result(), value, 'returned function is unaltered');
 });
@@ -46,7 +58,7 @@ test('Invoked function', function(assert) {
 		spy = Edgar.createSpy(obj, 'foo', func).andInvoke(),
 		result = obj.foo();
 
-	assert.ok(spy.called(), 'foo was called');
+	assert.equal(spy.called(), 1, 'foo was called');
 	assert.equal(result, value, 'spy invoked function that was passed');
 });
 
@@ -55,7 +67,7 @@ test('No mocking', function(assert) {
 		spy = Edgar.createSpy(obj, 'foo').andExecute(),
 		result = obj.foo();
 
-	assert.ok(spy.called(), 'foo was called');
+	assert.equal(spy.called(), 1, 'foo was called');
 	assert.equal(result, value, 'spy executed the original function');
 });
 
