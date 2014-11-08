@@ -148,6 +148,9 @@
 				return call.returned;
 			};
 
+			/**
+			 *
+			 */
 			self.andInvoke = self.startInvoking = function() {
 				if (typeof this.value === 'function') {
 					self.invoke = true;
@@ -169,7 +172,10 @@
 			 *
 			 * @type {Function}
 			 */
-			self.andMock = self.startMocking = function() {
+			self.andMock = self.startMocking = function(value) {
+				if (value !== undefined) {
+					self.value = value;
+				}
 				self.execute = false;
 				return self;
 			};
