@@ -3,7 +3,7 @@
 ### Master
 
 ### 0.0.3 (November 7, 2014)
-* Fix scoping issue that caused multiple spies to return each other's results when used together (#3)
+* Fix scoping issue that caused multiple spies to return each other's results when used together ([#3](/../../issues/3))
 * Update README
 
 ### 0.0.2 (November 6, 2014)
