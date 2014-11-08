@@ -57,7 +57,8 @@
 				spy;
 
 			if (type === 'undefined' || type === 'function') { // Create a callback spy
-				return this.createMock(obj);
+				throw 'Mocking without objects is not yet supported';
+				// return this.createMock(obj);
 			} else if (type === 'object' && obj !== null) {
 				if (typeof method === 'string') { // Create a normal spy
 					spy = this.getSpy(obj, method);
@@ -116,136 +117,140 @@
 	 * @constructor
 	 */
 	Edgar.Spy = (function() {
-		var self;
 
 		function Spy(obj, method, value) {
-			self = this;
+			if (!(this instanceof Spy)) {
+				return new Spy(obj, method, value);
+			}
+
+			var self = this;
+
+			/**
+			 *
+			 * @returns {*}
+			 */
+			self.mock = function() {
+				var args = arguments,
+					call = {
+						args: args
+					};
+
+				if (self.execute) {
+					call.returned = self.method.apply(self.obj, args);
+				} else if (self.invoke) {
+					call.returned = self.value.apply(self.obj, args);
+				} else {
+					call.returned = self.value;
+				}
+
+				self.calls.push(call);
+
+				return call.returned;
+			};
+
+			self.andInvoke = self.startInvoking = function() {
+				if (typeof this.value === 'function') {
+					self.invoke = true;
+					return self;
+				}
+				throw 'Cannot invoke value that is not a function.';
+			};
+
+			/**
+			 *
+			 * @type {Function}
+			 */
+			self.andExecute = self.startExecuting = function() {
+				self.execute = true;
+				return self;
+			};
+
+			/**
+			 *
+			 * @type {Function}
+			 */
+			self.andMock = self.startMocking = function() {
+				self.execute = false;
+				return self;
+			};
+
+			/**
+			 *
+			 * @returns {Number}
+			 */
+			self.called = function() {
+				return self.calls.length;
+			};
+
+			/**
+			 *
+			 * @param id
+			 * @returns {*}
+			 */
+			self.calledWith = function(id) {
+				if (id !== undefined && id !== null) {
+					if (id >= 0 && id < self.calls.length) {
+						return self.calls[id].args;
+					}
+					throw 'Cannot get arguments for invalid call index.';
+				} else if (self.calls.length) {
+					return self.calls[self.calls.length - 1].args;
+				}
+				throw 'Cannot get arguments, spy has not been called.';
+			};
+
+			/**
+			 *
+			 * @param id
+			 * @returns {*}
+			 */
+			self.returnedWith = function(id) {
+				if (id !== undefined && id !== null) {
+					if (id >= 0 && id < self.calls.length) {
+						return self.calls[id].returned;
+					}
+					throw 'Cannot get return value for invalid call index.';
+				} else {
+					return self.calls[self.calls.length - 1].returned;
+				}
+			};
+
+			/**
+			 *
+			 * @returns {Array}
+			 */
+			self.reset = function() {
+				var calls = self.calls;
+				self.calls = [];
+
+				return calls;
+			};
+
+			/**
+			 *
+			 */
+			self.release = function() {
+				self.obj[self.name] = self.method;
+			};
+
+			/**
+			 *
+			 */
+			self.resume = function() {
+				self.obj[self.name] = self.mock;
+			};
+
+			// Defaults and Storage
 			self.obj = obj;
 			self.name = method;
 			self.method = obj[method];
 			self.value = value;
 			self.execute = false;
 			self.invoke = null;
-
 			self.calls = [];
 
 			obj[method] = self.mock;
 		}
-
-		/**
-		 *
-		 * @returns {*}
-		 */
-		Spy.prototype.mock = function() {
-			var args = arguments,
-				call = {
-					args: args
-				};
-
-			if (self.execute) {
-				call.returned = self.method.apply(self.obj, args);
-			} else if (self.invoke) {
-				call.returned = self.value.apply(self.obj, args);
-			} else {
-				call.returned = self.value;
-			}
-
-			self.calls.push(call);
-
-			return call.returned;
-		};
-
-		Spy.prototype.andInvoke = Spy.prototype.startInvoking = function() {
-			if (typeof this.value === 'function') {
-				self.invoke = true;
-				return self;
-			}
-			throw 'Cannot invoke value that is not a function.';
-		};
-
-		/**
-		 *
-		 * @type {Function}
-		 */
-		Spy.prototype.andExecute = Spy.prototype.startExecuting = function() {
-			self.execute = true;
-			return self;
-		};
-
-		/**
-		 *
-		 * @type {Function}
-		 */
-		Spy.prototype.andMock = Spy.prototype.startMocking = function() {
-			self.execute = false;
-			return self;
-		};
-
-		/**
-		 *
-		 * @returns {Number}
-		 */
-		Spy.prototype.called = function() {
-			return self.calls.length;
-		};
-
-		/**
-		 *
-		 * @param id
-		 * @returns {*}
-		 */
-		Spy.prototype.calledWith = function(id) {
-			if (id !== undefined && id !== null) {
-				if (id >= 0 && id < self.calls.length) {
-					return self.calls[id].args;
-				}
-				throw 'Cannot get arguments for invalid call index.';
-			} else if (self.calls.length) {
-				return self.calls[self.calls.length - 1].args;
-			}
-			throw 'Cannot get arguments, spy has not been called.';
-		};
-
-		/**
-		 *
-		 * @param id
-		 * @returns {*}
-		 */
-		Spy.prototype.returnedWith = function(id) {
-			if (id !== undefined && id !== null) {
-				if (id >= 0 && id < self.calls.length) {
-					return self.calls[id].returned;
-				}
-				throw 'Cannot get return value for invalid call index.';
-			} else {
-				return self.calls[self.calls.length - 1].returned;
-			}
-		};
-
-		/**
-		 *
-		 * @returns {Array}
-		 */
-		Spy.prototype.reset = function() {
-			var calls = self.calls;
-			self.calls = [];
-
-			return calls;
-		};
-
-		/**
-		 *
-		 */
-		Spy.prototype.release = function() {
-			self.obj[self.name] = self.method;
-		};
-
-		/**
-		 *
-		 */
-		Spy.prototype.resume = function() {
-			self.obj[self.name] = self.mock;
-		};
 
 		return Spy;
 	})();
@@ -255,14 +260,14 @@
 	 * @param method
 	 * @constructor
 	 */
-	Edgar.Mock = function(method) {
-		var spy = new Edgar.Spy({}, 'mock', method, true),
-			mock = spy.mock;
-
-		mock.prototype = spy.prototype;
-
-		return mock;
-	};
+	// Edgar.Mock = function(method) {
+	// 	var spy = new Edgar.Spy({}, 'mock', method, true),
+	// 		mock = spy.mock;
+	//
+	// 	mock.prototype = spy.prototype;
+	//
+	// 	return mock;
+	// };
 
 	if (typeof QUnit !== 'undefined') {
 		QUnit.testDone(function() {
