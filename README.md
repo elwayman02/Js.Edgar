@@ -37,14 +37,14 @@ Creating a Spy is easy, and our API attempts to intelligently configure the Spy 
 
 ```javascript
 var obj;
-module('QUnit Spies', { 
+module('QUnit Spies', {
 	setup: function() {
 		obj = {
 			foo: function () {
 				return 'bar';
 			}
 		};
-	} 
+	}
 });
 
 test('Basic Spy', function(assert) {
@@ -70,12 +70,30 @@ test('Return Value', function(assert) {
 		spy = Edgar.createSpy(obj, 'foo', value),
 		result = obj.foo();
 
-	assert.ok(spy.called(), 'foo was called');
+	assert.equal(spy.called(), 1, 'foo was called');
 	assert.equal(result, value, 'spy returned value that was passed');
 });
 ```
 
 In the above example, we added a third parameter to createSpy(), which Js.Edgar used to mock a return value when foo() was called.  This parameter can be any valid javascript object or primitive, including functions!
+
+If you need to change the Spy's return value for subsequent assertions or to setup mocking after executing the live method previously (see below), you can call startMocking() (or its alias andMock()).
+
+```javascript
+test('Return value set with startMocking', function(assert) {
+	var value = 'stuff',
+		spy = Edgar.createSpy(obj, 'foo').andExecute(), // setup spy with no mocking
+		result;
+
+	spy.startMocking(value);
+	result = obj.foo();
+
+	assert.equal(spy.called(), 1, 'foo was called');
+	assert.equal(result, value, 'spy returned value that was passed');
+});
+```
+
+startMocking takes an optional parameter that allows you to set the return value or invoke method (see below) for the Spy if you have not yet done so.
 
 ## Invoking Mock Methods
 
@@ -89,7 +107,7 @@ test('Invoked Function', function(assert) {
 		param = 'it',
 		result = obj.foo(param);
 
-	assert.ok(spy.called(), 'foo was called');
+	assert.equal(spy.called(), 1, 'foo was called');
 	assert.equal(result, value + param, 'spy invoked function that was passed');
 });
 ```
@@ -103,17 +121,17 @@ test('Non-chained Invoke', function(assert) {
 		spy = Edgar.createSpy(obj, 'foo', func),
 		param = 'it',
 		result;
-		
+
 	spy.startInvoking();
 	result = obj.foo(param);
 
-	assert.ok(spy.called(), 'foo was called');
+	assert.equal(spy.called(), 1, 'foo was called');
 	assert.equal(result, value + param, 'spy invoked function that was passed');
 });
 ```
 
 startInvoking() is interchangeable with andInvoke, we just provided both method names so that your code is more readable regardless of which pattern you choose.
- 
+
 ## Executing Original Functionality
 
 Now you might be asking yourself, what if I actually want the method I'm spying on to execute?  Well, don't worry, we've thought of that!
@@ -124,7 +142,7 @@ test('No Mocking', function(assert) {
 		spy = Edgar.createSpy(obj, 'foo').andExecute(),
 		result = obj.foo();
 
-	assert.ok(spy.called(), 'foo was called');
+	assert.equal(spy.called(), 1, 'foo was called');
 	assert.equal(result, value, 'spy executed the original function');
 });
 ```
