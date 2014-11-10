@@ -1,6 +1,8 @@
 # Js.Edgar Changelog
 
 ### Master
+
+### 0.0.4 (November 9, 2014)
 * Add JSDoc and update README ([#8](/../../issues/8))
 * Add optional parameter to startMocking to allow a new return value to be passed ([#2](/../../issues/2))
 
