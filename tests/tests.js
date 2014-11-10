@@ -226,14 +226,14 @@ test('No mocking - multiple calls', function(assert) {
 
 module('Utility Methods', { setup: setup });
 
-test('Reset - resets call array and returns existing calls', function(assert) {
+test('Reset - resets call arrays', function(assert) {
 	var spy = Edgar.createSpy(obj, 'foo');
 
 	obj.foo();
 
-	var calls = spy.reset();
+	var self = spy.reset();
 
-	assert.equal(calls.length, 1, 'returns existing calls from reset');
+	assert.equal(self, spy, 'returns itself from reset');
 	assert.ok(!spy.called(), 'no calls left after reset');
 });
 

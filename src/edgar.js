@@ -128,7 +128,7 @@
 	* @param {*} [value] A mock value to return or method to invoke
 	* @constructor
 	*/
-	Edgar.prototype.Spy = (function() {
+	Edgar.Spy = (function() {
 
 		function Spy(obj, method, value) {
 			if (!(this instanceof Spy)) {
@@ -189,9 +189,13 @@
 			/**
 			* Setup the Spy to mock the method being watched
 			*
+			* @param {*} [value] The value to return/invoke for the mock
 			* @returns {Spy} Itself
 			*/
-			self.andMock = self.startMocking = function() {
+			self.andMock = self.startMocking = function(value) {
+				if (value !== undefined) {
+					self.value = value;
+				}
 				self.execute = false;
 				return self;
 			};
