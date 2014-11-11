@@ -145,21 +145,20 @@
 			*/
 			self.mock = function() {
 				var args = arguments,
-					call = {
-						args: args
-					};
+					id = self.calls.length,
+					returned = self.value;
+
+				self.calls.push({ args: args });
 
 				if (self.execute) {
-					call.returned = self.method.apply(self.obj, args);
+					returned = self.method.apply(self.obj, args);
 				} else if (self.invoke) {
-					call.returned = self.value.apply(self.obj, args);
-				} else {
-					call.returned = self.value;
+					returned = self.value.apply(self.obj, args);
 				}
 
-				self.calls.push(call);
+				self.calls[id].returned = returned;
 
-				return call.returned;
+				return returned;
 			};
 
 			/**

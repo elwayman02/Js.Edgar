@@ -146,6 +146,27 @@ test('Multiple calls', function(assert) {
 	assert.equal(args2, args3, 'calledWith returns most recent call if no id is provided');
 });
 
+test('Multiple recursive calls', function(assert) {
+	var barVal = 'bar',
+		stuffVal = 'stuff';
+	obj.foo = function (bar) {
+		if (bar === barVal) {
+			obj.foo(stuffVal);
+		}
+	};
+
+	var spy = Edgar.createSpy(obj, 'foo').andExecute();
+
+	obj.foo(barVal);
+
+	assert.equal(spy.called(), 2, 'foo was called twice');
+
+	var args1 = spy.calledWith(0),
+		args2 = spy.calledWith(1);
+	assert.equal(args1[0], barVal, 'foo was called with barVal first');
+	assert.equal(args2[0], stuffVal, 'foo was called with stuffVal second');
+});
+
 module('Return Value Tracking', { setup: setup });
 
 test('Mocked return value', function(assert) {

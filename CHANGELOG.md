@@ -2,6 +2,9 @@
 
 ### Master
 
+### 0.0.6 (November 11, 2014)
+* [BUGFIX] Fix recursive calls being tracked in the wrong order ([#13](/../../issues/13))
+
 ### 0.0.5 (November 10, 2014)
 * [BUGFIX] Fix bad merge
 * Update tests
