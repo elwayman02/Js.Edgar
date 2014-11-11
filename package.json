@@ -6,15 +6,16 @@
 		"name": "Jordan Hawker",
 		"email": "Hawker.Jordan@gmail.com"
 	},
-	"maintainers": {
+	"maintainers": [{
 		"name": "Jordan Hawker",
 		"email": "Hawker.Jordan@gmail.com",
 		"web": "http://www.JordanHawker.com"
-	}
+	}],
 	"homepage": "https://github.com/elwayman02/Js.Edgar",
 	"bugs": {
 		"mail": "Hawker.Jordan@gmail.com",
-		"url": "https://github.com/elwayman02/Js.Edgar/issues/"
+		"url": "https://github.com/elwayman02/Js.Edgar/issues/",
+		"web": "https://github.com/elwayman02/Js.Edgar/issues/"
 	},
 	"repository": {
 		"type": "git",
@@ -34,8 +35,15 @@
 	"main": "./src/edgar.js",
 	"devDependencies": {
 		"qunitjs": "~1.15.0"
-	}
+	},
 	"jam": {
-		"main": "./src/edgar/js"
+		"main": "./src/edgar/js",
+		"include": [
+			"./src/edgar.js",
+			"README.md",
+			"LICENSE.txt",
+			"CHANGELOG.md",
+			"CONTRIBUTORS.md"
+		]
 	}
 }
