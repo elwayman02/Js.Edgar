@@ -6,6 +6,11 @@
 		"name": "Jordan Hawker",
 		"email": "Hawker.Jordan@gmail.com"
 	},
+	"maintainers": {
+		"name": "Jordan Hawker",
+		"email": "Hawker.Jordan@gmail.com",
+		"web": "http://www.JordanHawker.com"
+	}
 	"homepage": "https://github.com/elwayman02/Js.Edgar",
 	"bugs": {
 		"mail": "Hawker.Jordan@gmail.com",
@@ -29,5 +34,8 @@
 	"main": "./src/edgar.js",
 	"devDependencies": {
 		"qunitjs": "~1.15.0"
+	}
+	"jam": {
+		"main": "./src/edgar/js"
 	}
 }
