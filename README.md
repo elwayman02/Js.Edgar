@@ -18,6 +18,11 @@ Install with bower:
 bower install js.edgar
 ```
 
+Install with jam:
+```
+jam install js.edgar
+```
+
 Add the edgar.js script to your html:
 ```html
 <script src="{file path}/edgar.js"></script>

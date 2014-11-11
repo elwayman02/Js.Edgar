@@ -2,8 +2,10 @@
 
 ### Master
 
-### 0.0.6 (November 11, 2014)
+### 0.1.0-beta (November 11, 2014)
 * [BUGFIX] Fix recursive calls being tracked in the wrong order ([#13](/../../issues/13))
+* [FEATURE] Add support for AMD/NodeJS module importing ([#5](/../../issues/5))
+* [FEATURE] Publish to Jam ([#15](/../../issues/15))
 
 ### 0.0.5 (November 10, 2014)
 * [BUGFIX] Fix bad merge
