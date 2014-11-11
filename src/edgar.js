@@ -6,9 +6,19 @@
 * @author  Jordan Hawker <hawker.jordan@gmail.com>
 * @license MIT
 */
-
-(function() {
-	Edgar = {
+(function (root, factory) {
+    if (typeof define === 'function' && define.amd) { // AMD module
+        define([], factory);
+    } else if (typeof exports === 'object') {
+			if (typeof module === 'object' && module.exports) {
+        module.exports = factory();
+			}
+			exports.Edgar = factory();
+    } else { // Browser globals (root is window)
+        root.Edgar = factory();
+  }
+}(this, function () {
+	var Edgar = {
 		spies: {},
 		mocks: {},
 
@@ -319,4 +329,6 @@
 			Edgar.removeSpies();
 		});
 	}
-}).call(this);
+
+	return Edgar;
+}));
