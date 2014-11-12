@@ -2,6 +2,9 @@
 
 ### Master
 
+### 0.1.0-beta.1 (November 12, 2014)
+* [FEATURE] Track context of 'this' for each call ([#17](/../../issues/17))
+
 ### 0.1.0-beta (November 11, 2014)
 * [BUGFIX] Fix recursive calls being tracked in the wrong order ([#13](/../../issues/13))
 * [FEATURE] Add support for AMD/NodeJS module importing ([#5](/../../issues/5))

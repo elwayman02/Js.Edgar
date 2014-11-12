@@ -258,6 +258,60 @@ test('No mocking - multiple calls', function(assert) {
 });
 ```
 
+## Tracking Call Context
+
+Spies also track and pass the context of ```this``` when the spied method is called:
+ 
+ ```javascript
+test('Context passing with call() - Invoke', function (assert) {
+	var self,
+		spy = Edgar.createSpy(obj, 'foo', function() { self = this; }).andInvoke(),
+		obj2 = {};
+
+	obj.foo.call(obj2);
+
+	assert.equal(self, obj2, 'obj2 passed to invoked method');
+});
+
+test('Context passing with apply() - Execute', function (assert) {
+	var self;
+	obj.foo = function() {
+		self = this;
+	};
+	var spy = Edgar.createSpy(obj, 'foo').andExecute(),
+		obj2 = {};
+
+	obj.foo.apply(obj2);
+
+	assert.equal(self, obj2, 'obj2 passed to executed method');
+});
+```
+
+The above examples show that the context is passed to both executed and invoked methods, regardless of whether call() or apply() (or neither) were used.
+
+For the purposes of testing, you can use Spy.getContext() to assert that the method was called with the proper value of ```this```, which can be helpful if you are using call() or apply() yourself.
+
+```javascript
+test('Single call', function (assert) {
+	var spy = Edgar.createSpy(obj, 'foo');
+
+	obj.foo();
+
+	assert.equal(spy.getContext(0), obj, 'obj used as default context');
+});
+
+test('Single call using call()', function (assert) {
+	var spy = Edgar.createSpy(obj, 'foo'),
+		obj2 = {};
+
+	obj.foo.call(obj2);
+
+	assert.equal(spy.getContext(0), obj2, 'obj2 used as context passed from call()');
+});
+```
+
+As with the previous APIs, passing a call id to getContext is optional; it will return the most recent call by default.
+
 ## Releasing Spies
 
 As mentioned previously, Js.Edgar will proactively release all spies between QUnit or Mocha tests.  However, if you are using another framework or run into any other scenario where you need to make sure original functionality is restored, just call Spy.release()!

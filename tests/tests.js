@@ -245,6 +245,124 @@ test('No mocking - multiple calls', function(assert) {
 	assert.equal(spy.returnedWith(), value, 'returnedWith returns most recent call if no id is provided');
 });
 
+module('Context Tracking', { setup: setup });
+
+test('Single call', function (assert) {
+	var spy = Edgar.createSpy(obj, 'foo');
+
+	obj.foo();
+
+	assert.equal(spy.getContext(), obj, 'obj used as default context');
+});
+
+test('Single call using call()', function (assert) {
+	var spy = Edgar.createSpy(obj, 'foo'),
+		obj2 = {};
+
+	obj.foo.call(obj2);
+
+	assert.equal(spy.getContext(), obj2, 'obj2 used as context passed from call()');
+});
+
+test('Single call using apply()', function (assert) {
+	var spy = Edgar.createSpy(obj, 'foo'),
+		obj2 = {};
+
+	obj.foo.apply(obj2);
+
+	assert.equal(spy.getContext(), obj2, 'obj2 used as context passed from apply()');
+});
+
+test('Multiple calls - one basic, one apply', function (assert) {
+	var spy = Edgar.createSpy(obj, 'foo'),
+		obj2 = {};
+
+	obj.foo();
+	obj.foo.apply(obj2);
+
+	assert.equal(spy.getContext(0), obj, 'obj used as context for first call');
+	assert.equal(spy.getContext(), obj2, 'obj2 used as context for second call');
+});
+
+test('Multiple calls - one call, one apply', function (assert) {
+	var spy = Edgar.createSpy(obj, 'foo'),
+		obj2 = {},
+		obj3 = {bar: function() {}};
+
+	obj.foo.call(obj2);
+	obj.foo.apply(obj3);
+
+	assert.equal(spy.getContext(0), obj2, 'obj2 used as context for first call');
+	assert.equal(spy.getContext(), obj3, 'obj3 used as context for second call');
+});
+
+test('Context passing - Invoke', function (assert) {
+	var self,
+		spy = Edgar.createSpy(obj, 'foo', function() { self = this; }).andInvoke();
+
+	obj.foo();
+
+	assert.equal(self, obj, 'obj passed to invoked method');
+});
+
+test('Context passing with call() - Invoke', function (assert) {
+	var self,
+		spy = Edgar.createSpy(obj, 'foo', function() { self = this; }).andInvoke(),
+		obj2 = {};
+
+	obj.foo.call(obj2);
+
+	assert.equal(self, obj2, 'obj2 passed to invoked method');
+});
+
+test('Context passing with apply() - Invoke', function (assert) {
+	var self,
+		spy = Edgar.createSpy(obj, 'foo', function() { self = this; }).andInvoke(),
+		obj2 = {};
+
+	obj.foo.apply(obj2);
+
+	assert.equal(self, obj2, 'obj2 passed to invoked method');
+});
+
+test('Context passing - Execute', function (assert) {
+	var self;
+	obj.foo = function() {
+		self = this;
+	};
+	var spy = Edgar.createSpy(obj, 'foo').andExecute();
+
+	obj.foo();
+
+	assert.equal(self, obj, 'obj passed to executed method');
+});
+
+test('Context passing with call() - Execute', function (assert) {
+	var self;
+	obj.foo = function() {
+		self = this;
+	};
+	var spy = Edgar.createSpy(obj, 'foo').andExecute(),
+		obj2 = {};
+
+	obj.foo.call(obj2);
+
+	assert.equal(self, obj2, 'obj2 passed to executed method');
+});
+
+test('Context passing with apply() - Execute', function (assert) {
+	var self;
+	obj.foo = function() {
+		self = this;
+	};
+	var spy = Edgar.createSpy(obj, 'foo').andExecute(),
+		obj2 = {};
+
+	obj.foo.apply(obj2);
+
+	assert.equal(self, obj2, 'obj2 passed to executed method');
+});
+
 module('Utility Methods', { setup: setup });
 
 test('Reset - resets call arrays', function(assert) {
