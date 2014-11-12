@@ -156,14 +156,22 @@
 			self.mock = function() {
 				var args = arguments,
 					id = self.calls.length,
-					returned = self.value;
+					returned = self.value,
+					context = self.obj;
 
-				self.calls.push({ args: args });
+				if (this !== self) {
+					context = this;
+				}
+
+				self.calls.push({
+					args: args,
+					context: context
+				});
 
 				if (self.execute) {
-					returned = self.method.apply(self.obj, args);
+					returned = self.method.apply(context, args);
 				} else if (self.invoke) {
-					returned = self.value.apply(self.obj, args);
+					returned = self.value.apply(context, args);
 				}
 
 				self.calls[id].returned = returned;
@@ -252,6 +260,24 @@
 					throw 'Cannot get return value for invalid call index.';
 				} else {
 					return self.calls[self.calls.length - 1].returned;
+				}
+			};
+
+			/**
+			 * Get the context of 'this' passed to Spy.mock(),
+			 * defaulting to the spied object if 'this' was the Spy itself
+			 *
+			 * @param {Number} [id] The id of the call, in case of multiple
+			 * @returns {*} The context of that call
+			 */
+			self.getContext = function(id) {
+				if (id !== undefined && id !== null) {
+					if (id >= 0 && id < self.calls.length) {
+						return self.calls[id].context;
+					}
+					throw 'Cannot get context for invalid call index.';
+				} else {
+					return self.calls[self.calls.length - 1].context;
 				}
 			};
 
