@@ -44,7 +44,7 @@
 		"grunt-exec": "^0.4.6"
 	},
 	"jam": {
-		"main": "./src/edgar/js",
+		"main": "./src/edgar.js",
 		"include": [
 			"./src/edgar.js",
 			"README.md",
