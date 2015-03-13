@@ -7,9 +7,9 @@
 		"email": "Hawker.Jordan@gmail.com"
 	},
 	"maintainers": [{
-			"name": "Jordan Hawker",
-			"email": "Hawker.Jordan@gmail.com",
-			"web": "http://www.JordanHawker.com"
+		"name": "Jordan Hawker",
+		"email": "Hawker.Jordan@gmail.com",
+		"web": "http://www.JordanHawker.com"
 	}],
 	"homepage": "https://github.com/elwayman02/Js.Edgar",
 	"bugs": {
