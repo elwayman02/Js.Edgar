@@ -1,57 +1,57 @@
 {
-  "name": "js.edgar",
-  "version": "0.1.0-beta.2",
-  "description": "Lightweight Spy/Mock Library for JavaScript",
-  "author": {
-    "name": "Jordan Hawker",
-    "email": "Hawker.Jordan@gmail.com"
-  },
-  "maintainers": [
-    {
-      "name": "Jordan Hawker",
-      "email": "Hawker.Jordan@gmail.com",
-      "web": "http://www.JordanHawker.com"
-    }
-  ],
-  "homepage": "https://github.com/elwayman02/Js.Edgar",
-  "bugs": {
-    "mail": "Hawker.Jordan@gmail.com",
-    "url": "https://github.com/elwayman02/Js.Edgar/issues/",
-    "web": "https://github.com/elwayman02/Js.Edgar/issues/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/elwayman02/Js.Edgar.git"
-  },
-  "license": "MIT",
-  "keywords": [
-    "javascript",
-    "ecmascript",
-    "test",
-    "testing",
-    "mock",
-    "mocking",
-    "spy",
-    "spies"
-  ],
-  "main": "./src/edgar.js",
-  "devDependencies": {
-    "qunitjs": "~1.15.0",
-    "qunit-cli": "~0.2.0",
-    "grunt": "~0.4.5",
-    "grunt-contrib-jshint": "~0.10.0",
-    "grunt-contrib-nodeunit": "~0.4.1",
-    "grunt-contrib-uglify": "~0.5.0",
-    "grunt-exec": "^0.4.6"
-  },
-  "jam": {
-    "main": "./src/edgar/js",
-    "include": [
-      "./src/edgar.js",
-      "README.md",
-      "LICENSE.txt",
-      "CHANGELOG.md",
-      "CONTRIBUTORS.md"
-    ]
-  }
+	"name": "js.edgar",
+	"version": "0.1.0-beta.2",
+	"description": "Lightweight Spy/Mock Library for JavaScript",
+	"author": {
+		"name": "Jordan Hawker",
+		"email": "Hawker.Jordan@gmail.com"
+	},
+	"maintainers": [
+		{
+			"name": "Jordan Hawker",
+			"email": "Hawker.Jordan@gmail.com",
+			"web": "http://www.JordanHawker.com"
+		}
+	],
+	"homepage": "https://github.com/elwayman02/Js.Edgar",
+	"bugs": {
+		"mail": "Hawker.Jordan@gmail.com",
+		"url": "https://github.com/elwayman02/Js.Edgar/issues/",
+		"web": "https://github.com/elwayman02/Js.Edgar/issues/"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/elwayman02/Js.Edgar.git"
+	},
+	"license": "MIT",
+	"keywords": [
+		"javascript",
+		"ecmascript",
+		"test",
+		"testing",
+		"mock",
+		"mocking",
+		"spy",
+		"spies"
+	],
+	"main": "./src/edgar.js",
+	"devDependencies": {
+		"qunitjs": "~1.15.0",
+		"qunit-cli": "~0.2.0",
+		"grunt": "~0.4.5",
+		"grunt-contrib-jshint": "~0.10.0",
+		"grunt-contrib-nodeunit": "~0.4.1",
+		"grunt-contrib-uglify": "~0.5.0",
+		"grunt-exec": "^0.4.6"
+	},
+	"jam": {
+		"main": "./src/edgar/js",
+		"include": [
+			"./src/edgar.js",
+			"README.md",
+			"LICENSE.txt",
+			"CHANGELOG.md",
+			"CONTRIBUTORS.md"
+		]
+	}
 }
