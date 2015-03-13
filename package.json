@@ -52,5 +52,6 @@
 			"CHANGELOG.md",
 			"CONTRIBUTORS.md"
 		]
-	}
+	},
+	"categories": ["Testing"]
 }
