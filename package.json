@@ -6,13 +6,11 @@
 		"name": "Jordan Hawker",
 		"email": "Hawker.Jordan@gmail.com"
 	},
-	"maintainers": [
-		{
+	"maintainers": [{
 			"name": "Jordan Hawker",
 			"email": "Hawker.Jordan@gmail.com",
 			"web": "http://www.JordanHawker.com"
-		}
-	],
+	}],
 	"homepage": "https://github.com/elwayman02/Js.Edgar",
 	"bugs": {
 		"mail": "Hawker.Jordan@gmail.com",
