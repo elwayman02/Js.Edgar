@@ -1,3 +1,9 @@
+// If tests are not running in the browser, these will be undefined
+if (typeof QUnit == 'undefined')
+    QUnit = require('qunit-cli');
+if (typeof Edgar == 'undefined')
+    Edgar = require('./../src/edgar');
+
 var module = QUnit.module,
 	test = QUnit.test,
 	obj;
