@@ -23,12 +23,20 @@ Install with jam:
 jam install js.edgar
 ```
 
-Add the edgar.js script to your html:
+Install with jspm:
+```
+jspm install js.edgar
+```
+
+Make sure to add Js.Edgar to the devDependencies of your project where applicable.
+
+Once installed, simply add the edgar.js script to your html:
 ```html
 <script src="{file path}/edgar.js"></script>
 ```
+Or reference the script within a build tool file, such as Brocfile.js
 
-You can now reference "Edgar" anywhere within your tests!
+Js.Edgar is supported as an AMD module, Node.js export, or browser global, depending on what your project is using.  You can now reference/import "Edgar" anywhere within your test files!  
 
 ## Supported Testing Frameworks
 
