@@ -3,7 +3,7 @@ cache:
   directories:
   - node_modules
 install:
-- npm install -g grunt-cli
+- npm install -g qunit-cli
 - npm install
 script:
 - npm test

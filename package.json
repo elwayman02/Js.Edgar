@@ -34,8 +34,8 @@
 	],
 	"main": "./src/edgar.js",
 	"scripts": {
-	    "test": "grunt testci"
-	  },
+	    "test": "qunit-cli tests/tests.js"
+	},
 	"devDependencies": {
 		"qunitjs": "~1.15.0",
 		"qunit-cli": "~0.2.0",
