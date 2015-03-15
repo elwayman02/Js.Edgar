@@ -2,6 +2,9 @@
 
 ### Master
 
+### 1.0.0 (March 13, 2015)
+* [FEATURE] Integrate test runner with Travis-CI builds
+
 ### 0.1.0-beta.1 (November 12, 2014)
 * [FEATURE] Track context of 'this' for each call ([#17](/../../issues/17))
 
