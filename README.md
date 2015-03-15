@@ -1,5 +1,7 @@
 # Js.Edgar
 
+[![Build Status](https://travis-ci.org/elwayman02/Js.Edgar.svg?branch=master)](https://travis-ci.org/elwayman02/Js.Edgar)
+
 Lightweight Spy/Mock Library for JavaScript
 
 ## Why choose this name?
