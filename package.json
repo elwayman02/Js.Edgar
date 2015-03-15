@@ -1,6 +1,6 @@
 {
 	"name": "js.edgar",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Lightweight Spy/Mock Library for JavaScript",
 	"author": {
 		"name": "Jordan Hawker",
@@ -12,6 +12,14 @@
 		"web": "http://www.JordanHawker.com"
 	}],
 	"homepage": "https://github.com/elwayman02/Js.Edgar",
+	"main": "./src/edgar.js",
+	"scripts": {
+	    "test": "qunit-cli tests/tests.js"
+	},
+	"devDependencies": {
+		"qunitjs": "~1.15.0",
+		"qunit-cli": "~0.2.0"
+	},
 	"bugs": {
 		"mail": "Hawker.Jordan@gmail.com",
 		"url": "https://github.com/elwayman02/Js.Edgar/issues/",
@@ -32,17 +40,6 @@
 		"spy",
 		"spies"
 	],
-	"main": "./src/edgar.js",
-	"scripts": {
-	    "test": "qunit-cli tests/tests.js"
-	},
-	"devDependencies": {
-		"qunitjs": "~1.15.0",
-		"qunit-cli": "~0.2.0",
-		"grunt": "~0.4.5",
-		"grunt-cli": "~0.1.13",
-		"grunt-exec": "^0.4.6"
-	},
 	"jam": {
 		"main": "./src/edgar.js",
 		"include": [
