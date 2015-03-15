@@ -261,7 +261,7 @@ test('No mocking - multiple calls', function(assert) {
 ## Tracking Call Context
 
 Spies also track and pass the context of ```this``` when the spied method is called:
- 
+
  ```javascript
 test('Context passing with call() - Invoke', function (assert) {
 	var self,
@@ -377,7 +377,11 @@ test('Restore - resumes spying on method', function(assert) {
 
 ## Running Js.Edgar's Unit Tests
 
-We are still working on configuring a command-line testing setup, but for now you can run our QUnit tests by pulling up the tests/index.html file.
+Run the following command:
+
+```
+npm test
+```
 
 ## License
 
