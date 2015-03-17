@@ -1,5 +1,7 @@
 # Js.Edgar
 
+[![Join the chat at https://gitter.im/elwayman02/Js.Edgar](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/elwayman02/Js.Edgar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://travis-ci.org/elwayman02/Js.Edgar.svg?branch=master)](https://travis-ci.org/elwayman02/Js.Edgar)
 ![Dependencies](https://david-dm.org/elwayman02/js.edgar.svg)
 
