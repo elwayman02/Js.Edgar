@@ -26,6 +26,19 @@ test('Basic Spy', function(assert) {
 	assert.equal(result, undefined, 'spy returned undefined by default');
 });
 
+test('Function Spy', function(assert) {
+	var func = function() {};
+	func.foo = function () {
+		return 'bar';
+	};
+
+	var spy = Edgar.createSpy(func, 'foo'),
+		result = func.foo();
+
+	assert.equal(spy.called(), 1, 'foo was called from function');
+	assert.equal(result, undefined, 'spy returned undefined by default');
+});
+
 test('Return value', function(assert) {
 	var value = 'stuff',
 		spy = Edgar.createSpy(obj, 'foo', value),
