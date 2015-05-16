@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/elwayman02/Js.Edgar.svg?branch=master)](https://travis-ci.org/elwayman02/Js.Edgar)
 [![Code Climate](https://codeclimate.com/github/elwayman02/Js.Edgar/badges/gpa.svg)](https://codeclimate.com/github/elwayman02/Js.Edgar)
+[![Codacy Badge](https://www.codacy.com/project/badge/79d961f5cd8d4c3d9faf4df1f3a6d5ea)](https://www.codacy.com/app/hawker-jordan/Js-Edgar)
 ![Dependencies](https://david-dm.org/elwayman02/js.edgar.svg)
 [![Join the chat at https://gitter.im/elwayman02/Js.Edgar](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/elwayman02/Js.Edgar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
