@@ -2,6 +2,9 @@
 
 ### Master
 
+### 1.0.1 (May 15, 2015)
+* [FEATURE] Allow mocking of methods on the function prototype
+
 ### 1.0.0 (March 13, 2015)
 * [FEATURE] Integrate test runner with Travis-CI builds
 

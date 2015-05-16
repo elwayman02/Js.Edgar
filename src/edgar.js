@@ -72,10 +72,10 @@
 			var type = typeof obj,
 				spy;
 
-			if (type === 'undefined' || type === 'function') { // Create a callback
+			if (type === 'undefined') { // Create a callback
 				throw 'Mocking without objects is not yet supported';
 				// return this.createMock(obj);
-			} else if (type === 'object' && obj !== null) {
+			} else if ((type === 'object' && obj !== null) || type === 'function') {
 				if (typeof method === 'string') { // Create a normal spy
 					spy = this.getSpy(obj, method);
 					if (!spy) {
