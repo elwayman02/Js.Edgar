@@ -76,8 +76,8 @@ test('Basic Spy', function(assert) {
 ```
 
 You'll note two things happened here:
-1) Js.Edgar tracked that foo was called (called() actually returns the number of calls, as you'll see later, but ok is a perfectly fine assertion if you only want to make sure it was called)
-2) The method foo() was mocked and the return value was undefined
+1) Js.Edgar tracked that foo was called (`called()` actually returns the number of calls, as you'll see later, but `ok` is a perfectly fine assertion if you only want to make sure it was called).
+2) The method `foo()` was mocked and the return value was `undefined`.
 
 ## Mocking Return Values
 
@@ -94,9 +94,9 @@ test('Return Value', function(assert) {
 });
 ```
 
-In the above example, we added a third parameter to createSpy(), which Js.Edgar used to mock a return value when foo() was called.  This parameter can be any valid javascript object or primitive, including functions!
+In the above example, we added a third parameter to `createSpy()`, which Js.Edgar used to mock a return value when `foo()` was called.  This parameter can be any valid javascript object or primitive, including functions!
 
-If you need to change the Spy's return value for subsequent assertions or to setup mocking after executing the live method previously (see below), you can call startMocking() (or its alias andMock()).
+If you need to change the Spy's return value for subsequent assertions or to setup mocking after executing the live method previously (see below), you can call `startMocking()` (or its alias `andMock()``).
 
 ```javascript
 test('Return value set with startMocking', function(assert) {
@@ -112,7 +112,7 @@ test('Return value set with startMocking', function(assert) {
 });
 ```
 
-startMocking takes an optional parameter that allows you to set the return value or invoke method (see below) for the Spy if you have not yet done so.
+`startMocking` takes an optional parameter that allows you to set the return value or invoke method (see below) for the Spy if you have not yet done so.
 
 ## Invoking Mock Methods
 
@@ -131,7 +131,7 @@ test('Invoked Function', function(assert) {
 });
 ```
 
-The key here was chaining the andInvoke() method onto your spy creation, telling Js.Edgar that the function you passed was to be invoked, rather than simply returned intact.  You can also set this up after creating the spy, if you'd like.
+The key here was chaining the `andInvoke()` method onto your spy creation, telling Js.Edgar that the function you passed was to be invoked, rather than simply returned intact.  You can also set this up after creating the spy, if you'd like.
 
 ```javascript
 test('Non-chained Invoke', function(assert) {
@@ -149,7 +149,7 @@ test('Non-chained Invoke', function(assert) {
 });
 ```
 
-startInvoking() is interchangeable with andInvoke, we just provided both method names so that your code is more readable regardless of which pattern you choose.
+`startInvoking()` is interchangeable with `andInvoke`, we just provided both method names so that your code is more readable regardless of which pattern you choose.
 
 ## Executing Original Functionality
 
@@ -166,11 +166,11 @@ test('No Mocking', function(assert) {
 });
 ```
 
-By calling andExecute() or its alias startExecuting(), you can tell Js.Edgar to let the original method be executed within the appropriate scope while still tracking all calls made to the method!
+By calling `andExecute()` or its alias `startExecuting()`, you can tell Js.Edgar to let the original method be executed within the appropriate scope while still tracking all calls made to the method!
 
 ## Tracking Arguments
 
-Js.Edgar can easily tell you what arguments were passed to each individual call.  Spy.calledWith() will return the arguments array of the most recent call made to the method, regardless of whether you are using the mock, invoke, or execute strategies.
+Js.Edgar can easily tell you what arguments were passed to each individual call.  `Spy.calledWith()` will return the arguments array of the most recent call made to the method, regardless of whether you are using the mock, invoke, or execute strategies.
 
 ```javascript
 test('Tracking Arguments', function(assert) {
@@ -218,7 +218,7 @@ test('Multiple calls', function(assert) {
 
 ## Tracking Return Values
 
-The exact same api exists for tracking values returned from each method call; just call returnedWith()!
+The exact same API exists for tracking values returned from each method call; just call `returnedWith()`!
 
 ```javascript
 test('Mocked return value - multiple calls', function(assert) {
@@ -301,9 +301,9 @@ test('Context passing with apply() - Execute', function (assert) {
 });
 ```
 
-The above examples show that the context is passed to both executed and invoked methods, regardless of whether call() or apply() (or neither) were used.
+The above examples show that the context is passed to both executed and invoked methods, regardless of whether `call()` or `apply()` (or neither) were used.
 
-For the purposes of testing, you can use Spy.getContext() to assert that the method was called with the proper value of ```this```, which can be helpful if you are using call() or apply() yourself.
+For the purposes of testing, you can use `Spy.getContext()` to assert that the method was called with the proper value of ```this```, which can be helpful if you are using `call()` or `apply()` yourself.
 
 ```javascript
 test('Single call', function (assert) {
@@ -328,7 +328,7 @@ As with the previous APIs, passing a call id to getContext is optional; it will 
 
 ## Releasing Spies
 
-As mentioned previously, Js.Edgar will proactively release all spies between QUnit or Mocha tests.  However, if you are using another framework or run into any other scenario where you need to make sure original functionality is restored, just call Spy.release()!
+As mentioned previously, Js.Edgar will proactively release all spies between QUnit or Mocha tests.  However, if you are using another framework or run into any other scenario where you need to make sure original functionality is restored, just call `Spy.release()`!
 
 ```javascript
 test('Release - stops spying on method and returns original functionality', function(assert) {
@@ -347,11 +347,11 @@ test('Release - stops spying on method and returns original functionality', func
 });
 ```
 
-After release() is called, no further calls to the method will be tracked and it will execute normally, as if the Spy had never been created.  The Spy will still have any data it collected up to that point, in case you should need it.
+After `release()` is called, no further calls to the method will be tracked and it will execute normally, as if the Spy had never been created.  The Spy will still have any data it collected up to that point, in case you should need it.
 
 ## Resetting Spies
 
-You can reset a Spy and wipe out its tracked calls by calling reset().  Once reset has been called, any further calls to the spies method will still be tracked, but previous calls will have been lost.
+You can reset a Spy and wipe out its tracked calls by calling `reset()`.  Once reset has been called, any further calls to the spies method will still be tracked, but previous calls will have been lost.
 
 ```javascript
 test('Reset - resets call array and returns existing calls', function(assert) {
@@ -368,7 +368,7 @@ test('Reset - resets call array and returns existing calls', function(assert) {
 
 ## Resuming Spies
 
-If you have released a Spy, you can resume spying on the method by simply calling resume().
+If you have released a Spy, you can resume spying on the method by simply calling `resume()`.
 
 ```javascript
 test('Restore - resumes spying on method', function(assert) {
