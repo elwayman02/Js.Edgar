@@ -96,7 +96,7 @@ test('Return Value', function(assert) {
 
 In the above example, we added a third parameter to `createSpy()`, which Js.Edgar used to mock a return value when `foo()` was called.  This parameter can be any valid javascript object or primitive, including functions!
 
-If you need to change the Spy's return value for subsequent assertions or to setup mocking after executing the live method previously (see below), you can call `startMocking()` (or its alias `andMock()``).
+If you need to change the Spy's return value for subsequent assertions or to setup mocking after executing the live method previously (see below), you can call `startMocking()` (or its alias `andMock()`).
 
 ```javascript
 test('Return value set with startMocking', function(assert) {
