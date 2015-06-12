@@ -4,433 +4,500 @@ if (typeof QUnit == 'undefined')
 if (typeof Edgar == 'undefined')
     Edgar = require('./../src/edgar');
 
-var module = QUnit.module,
-	test = QUnit.test,
-	obj;
+var module = QUnit.module;
+var test = QUnit.test;
+var obj;
 
 function setup() {
-	obj = {
-		foo: function () {
-			return 'bar';
-		}
-	};
+    obj = {
+        foo: function () {
+            return 'bar';
+        }
+    };
 }
 
 module('Call Tracking', { setup: setup });
 
-test('Basic Spy', function(assert) {
-	var spy = Edgar.createSpy(obj, 'foo'),
-		result = obj.foo();
+test('Basic Spy', function (assert) {
+    var spy = Edgar.createSpy(obj, 'foo');
+    var result = obj.foo();
 
-	assert.equal(spy.called(), 1, 'foo was called');
-	assert.equal(result, undefined, 'spy returned undefined by default');
+    assert.equal(spy.called(), 1, 'foo was called');
+    assert.equal(result, undefined, 'spy returned undefined by default');
 });
 
-test('Function Spy', function(assert) {
-	var func = function() {};
-	func.foo = function () {
-		return 'bar';
-	};
+test('Function Spy', function (assert) {
+    var func = function () {};
+    func.foo = function () {
+        return 'bar';
+    };
 
-	var spy = Edgar.createSpy(func, 'foo'),
-		result = func.foo();
+    var spy = Edgar.createSpy(func, 'foo'),
+        result = func.foo();
 
-	assert.equal(spy.called(), 1, 'foo was called from function');
-	assert.equal(result, undefined, 'spy returned undefined by default');
+    assert.equal(spy.called(), 1, 'foo was called from function');
+    assert.equal(result, undefined, 'spy returned undefined by default');
 });
 
-test('Return value', function(assert) {
-	var value = 'stuff',
-		spy = Edgar.createSpy(obj, 'foo', value),
-		result = obj.foo();
+test('Return value', function (assert) {
+    var value = 'stuff';
+    var spy = Edgar.createSpy(obj, 'foo', value);
+    var result = obj.foo();
 
-	assert.equal(spy.called(), 1, 'foo was called');
-	assert.equal(result, value, 'spy returned value that was passed');
+    assert.equal(spy.called(), 1, 'foo was called');
+    assert.equal(result, value, 'spy returned value that was passed');
 });
 
-test('Return value set with startMocking', function(assert) {
-	var value = 'stuff',
-		spy = Edgar.createSpy(obj, 'foo').andExecute(),
-		result;
+test('Return value set with startMocking', function (assert) {
+    var value = 'stuff';
+    var spy = Edgar.createSpy(obj, 'foo').andExecute();
+    var result;
 
-	spy.startMocking(value);
-	result = obj.foo();
+    spy.startMocking(value);
+    result = obj.foo();
 
-	assert.equal(spy.called(), 1, 'foo was called');
-	assert.equal(result, value, 'spy returned value that was passed');
+    assert.equal(spy.called(), 1, 'foo was called');
+    assert.equal(result, value, 'spy returned value that was passed');
 });
 
-test('Return function', function(assert) {
-	var value = 'stuff',
-		func = function() { return value; },
-		spy = Edgar.createSpy(obj, 'foo', func),
-		result = obj.foo();
+test('Return function', function (assert) {
+    var value = 'stuff';
+    var func = function () {
+        return value;
+    };
+    var spy = Edgar.createSpy(obj, 'foo', func);
+    var result = obj.foo();
 
-	assert.equal(spy.called(), 1, 'foo was called');
-	assert.equal(result, func, 'spy returned function that was passed');
-	assert.equal(result(), value, 'returned function is unaltered');
+    assert.equal(spy.called(), 1, 'foo was called');
+    assert.equal(result, func, 'spy returned function that was passed');
+    assert.equal(result(), value, 'returned function is unaltered');
 });
 
-test('Invoked function', function(assert) {
-	var value = 'stuff',
-		func = function() { return value; },
-		spy = Edgar.createSpy(obj, 'foo', func).andInvoke(),
-		result = obj.foo();
+test('Invoked function', function (assert) {
+    var value = 'stuff';
+    var func = function () {
+        return value;
+    };
+    var spy = Edgar.createSpy(obj, 'foo', func).andInvoke();
+    var result = obj.foo();
 
-	assert.equal(spy.called(), 1, 'foo was called');
-	assert.equal(result, value, 'spy invoked function that was passed');
+    assert.equal(spy.called(), 1, 'foo was called');
+    assert.equal(result, value, 'spy invoked function that was passed');
 });
 
-test('No mocking', function(assert) {
-	var value = obj.foo(),
-		spy = Edgar.createSpy(obj, 'foo').andExecute(),
-		result = obj.foo();
+test('No mocking', function (assert) {
+    var value = obj.foo();
+    var spy = Edgar.createSpy(obj, 'foo').andExecute();
+    var result = obj.foo();
 
-	assert.equal(spy.called(), 1, 'foo was called');
-	assert.equal(result, value, 'spy executed the original function');
+    assert.equal(spy.called(), 1, 'foo was called');
+    assert.equal(result, value, 'spy executed the original function');
 });
 
-test('Multiple calls', function(assert) {
-	var spy = Edgar.createSpy(obj, 'foo');
+test('Multiple calls', function (assert) {
+    var spy = Edgar.createSpy(obj, 'foo');
 
-	obj.foo();
-	assert.equal(spy.called(), 1, 'foo was called once');
+    obj.foo();
+    assert.equal(spy.called(), 1, 'foo was called once');
 
-	obj.foo();
-	assert.equal(spy.called(), 2, 'foo was called twice');
+    obj.foo();
+    assert.equal(spy.called(), 2, 'foo was called twice');
 });
 
-test('Multiple spies', function(assert) {
-	obj.bar = function () { return 'foo'; };
+test('Multiple spies', function (assert) {
+    obj.bar = function () {
+        return 'foo';
+    };
 
-	var fooSpy = Edgar.createSpy(obj, 'foo'),
-		barSpy = Edgar.createSpy(obj, 'bar'),
-		val1 = 'thing',
-		val2 = 'stuff';
+    var fooSpy = Edgar.createSpy(obj, 'foo');
+    var barSpy = Edgar.createSpy(obj, 'bar');
+    var val1 = 'thing';
+    var val2 = 'stuff';
 
-	obj.foo(val1);
-	obj.bar(val2);
+    obj.foo(val1);
+    obj.bar(val2);
 
-	assert.equal(fooSpy.called(), 1, 'foo was called once');
-	assert.equal(barSpy.called(), 1, 'bar was called once');
-	assert.equal(fooSpy.calledWith()[0], val1, 'foo was called with val1');
-	assert.equal(barSpy.calledWith()[0], val2, 'bar was called with val2');
+    assert.equal(fooSpy.called(), 1, 'foo was called once');
+    assert.equal(barSpy.called(), 1, 'bar was called once');
+    assert.equal(fooSpy.calledWith()[0], val1, 'foo was called with val1');
+    assert.equal(barSpy.calledWith()[0], val2, 'bar was called with val2');
 });
 
 module('Argument Tracking', { setup: setup });
 
-test('Single argument', function(assert) {
-	var spy = Edgar.createSpy(obj, 'foo'),
-		value = 'stuff';
+test('Single argument', function (assert) {
+    var spy = Edgar.createSpy(obj, 'foo');
+    var value = 'stuff';
 
-	obj.foo(value);
-	assert.equal(spy.calledWith()[0], value, 'foo was called with value');
+    obj.foo(value);
+    assert.equal(spy.calledWith()[0], value, 'foo was called with value');
 });
 
-test('Multiple arguments', function(assert) {
-	var spy = Edgar.createSpy(obj, 'foo'),
-		value = 'stuff',
-		value2 = {thing: 'rawr'};
+test('Multiple arguments', function (assert) {
+    var spy = Edgar.createSpy(obj, 'foo');
+    var value = 'stuff';
+    var value2 = { thing: 'rawr' };
 
-	obj.foo(value, value2);
-	var args = spy.calledWith();
-	assert.equal(args.length, 2, 'foo was called with 2 arguments');
-	assert.equal(args[0], value, 'foo was called with value');
-	assert.equal(args[1], value2, 'foo was called with value2');
+    obj.foo(value, value2);
+    var args = spy.calledWith();
+    assert.equal(args.length, 2, 'foo was called with 2 arguments');
+    assert.equal(args[0], value, 'foo was called with value');
+    assert.equal(args[1], value2, 'foo was called with value2');
 });
 
-test('Multiple calls', function(assert) {
-	var spy = Edgar.createSpy(obj, 'foo'),
-		value = 'stuff',
-		value2 = {thing: 'rawr'},
-		value3 = [1, 2, 3],
-		value4 = function() { return 'foobar';},
-		value5 = 'moo';
+test('Multiple calls', function (assert) {
+    var spy = Edgar.createSpy(obj, 'foo');
+    var value = 'stuff';
+    var value2 = { thing: 'rawr' };
+    var value3 = [1, 2, 3];
+    var value4 = function () {
+        return 'foobar';
+    };
+    var value5 = 'moo';
 
-	obj.foo(value, value2);
-	obj.foo(value3, value4, value5);
+    obj.foo(value, value2);
+    obj.foo(value3, value4, value5);
 
-	var args = spy.calledWith(0);
-	assert.equal(args.length, 2, 'foo was called with 2 arguments');
-	assert.equal(args[0], value, 'foo was called with value');
-	assert.equal(args[1], value2, 'foo was called with value2');
+    var args = spy.calledWith(0);
+    assert.equal(args.length, 2, 'foo was called with 2 arguments');
+    assert.equal(args[0], value, 'foo was called with value');
+    assert.equal(args[1], value2, 'foo was called with value2');
 
-	var args2 = spy.calledWith(1);
-	assert.equal(args2.length, 3, 'foo was called with 3 arguments');
-	assert.equal(args2[0], value3, 'foo was called with value3');
-	assert.equal(args2[1], value4, 'foo was called with value4');
-	assert.equal(args2[2], value5, 'foo was called with value5');
+    var args2 = spy.calledWith(1);
+    assert.equal(args2.length, 3, 'foo was called with 3 arguments');
+    assert.equal(args2[0], value3, 'foo was called with value3');
+    assert.equal(args2[1], value4, 'foo was called with value4');
+    assert.equal(args2[2], value5, 'foo was called with value5');
 
-	var args3 = spy.calledWith();
-	assert.equal(args2, args3, 'calledWith returns most recent call if no id is provided');
+    var args3 = spy.calledWith();
+    assert.equal(args2, args3, 'calledWith returns most recent call if no id is provided');
 });
 
-test('Multiple recursive calls', function(assert) {
-	var barVal = 'bar',
-		stuffVal = 'stuff';
-	obj.foo = function (bar) {
-		if (bar === barVal) {
-			obj.foo(stuffVal);
-		}
-	};
+test('Multiple recursive calls', function (assert) {
+    var barVal = 'bar';
+    var stuffVal = 'stuff';
+    obj.foo = function (bar) {
+        if (bar === barVal) {
+            obj.foo(stuffVal);
+        }
+    };
 
-	var spy = Edgar.createSpy(obj, 'foo').andExecute();
+    var spy = Edgar.createSpy(obj, 'foo').andExecute();
 
-	obj.foo(barVal);
+    obj.foo(barVal);
 
-	assert.equal(spy.called(), 2, 'foo was called twice');
+    assert.equal(spy.called(), 2, 'foo was called twice');
 
-	var args1 = spy.calledWith(0),
-		args2 = spy.calledWith(1);
-	assert.equal(args1[0], barVal, 'foo was called with barVal first');
-	assert.equal(args2[0], stuffVal, 'foo was called with stuffVal second');
+    var args1 = spy.calledWith(0),
+        args2 = spy.calledWith(1);
+    assert.equal(args1[0], barVal, 'foo was called with barVal first');
+    assert.equal(args2[0], stuffVal, 'foo was called with stuffVal second');
 });
 
 module('Return Value Tracking', { setup: setup });
 
-test('Mocked return value', function(assert) {
-	var value = 'stuff',
-		spy = Edgar.createSpy(obj, 'foo', value);
+test('Mocked return value', function (assert) {
+    var value = 'stuff';
+    var spy = Edgar.createSpy(obj, 'foo', value);
 
-	obj.foo();
-	assert.equal(spy.returnedWith(), value, 'foo was called with value');
+    obj.foo();
+    assert.equal(spy.returnedWith(), value, 'foo was called with value');
 });
 
-test('Mocked return value - multiple calls', function(assert) {
-	var value = 'stuff',
-		value2 = 'things',
-		spy = Edgar.createSpy(obj, 'foo', value);
+test('Mocked return value - multiple calls', function (assert) {
+    var value = 'stuff';
+    var value2 = 'things';
+    var spy = Edgar.createSpy(obj, 'foo', value);
 
-	obj.foo();
+    obj.foo();
 
-	Edgar.createSpy(obj, 'foo', value2);
+    Edgar.createSpy(obj, 'foo', value2);
 
-	obj.foo();
+    obj.foo();
 
-	assert.equal(spy.returnedWith(0), value, 'foo was called with value');
-	assert.equal(spy.returnedWith(1), value2, 'foo was called with value2');
-	assert.equal(spy.returnedWith(), value2, 'returnedWith returns most recent call if no id is provided');
+    assert.equal(spy.returnedWith(0), value, 'foo was called with value');
+    assert.equal(spy.returnedWith(1), value2, 'foo was called with value2');
+    assert.equal(spy.returnedWith(), value2, 'returnedWith returns most recent call if no id is provided');
 });
 
-test('Invoked function', function(assert) {
-	var value = 'stuff',
-		func = function() {return value;},
-		spy = Edgar.createSpy(obj, 'foo', func).andInvoke();
+test('Invoked function', function (assert) {
+    var value = 'stuff';
+    var func = function () {
+        return value;
+    };
+    var spy = Edgar.createSpy(obj, 'foo', func).andInvoke();
 
-	obj.foo();
-	assert.equal(spy.returnedWith(), value, 'function was invoked');
+    obj.foo();
+    assert.equal(spy.returnedWith(), value, 'function was invoked');
 });
 
-test('Invoked function - multiple calls', function(assert) {
-	var value = 'stuff',
-		func = function() {return value;},
-		spy = Edgar.createSpy(obj, 'foo', func).andInvoke();
+test('Invoked function - multiple calls', function (assert) {
+    var value = 'stuff';
+    var func = function () {
+        return value;
+    };
+    var spy = Edgar.createSpy(obj, 'foo', func).andInvoke();
 
-	obj.foo();
+    obj.foo();
 
-	var value2 = value;
-	value = 'things';
+    var value2 = value;
+    value = 'things';
 
-	obj.foo();
+    obj.foo();
 
-	assert.equal(spy.returnedWith(0), value2, 'func was invoked');
-	assert.equal(spy.returnedWith(1), value, 'new value was returned');
-	assert.equal(spy.returnedWith(), value, 'returnedWith returns most recent call if no id is provided');
+    assert.equal(spy.returnedWith(0), value2, 'func was invoked');
+    assert.equal(spy.returnedWith(1), value, 'new value was returned');
+    assert.equal(spy.returnedWith(), value, 'returnedWith returns most recent call if no id is provided');
 });
 
-test('No mocking', function(assert) {
-	var value = 'stuff',
-		func = function() {return value;},
-		spy = Edgar.createSpy(obj, 'foo', func).andInvoke();
+test('No mocking', function (assert) {
+    var value = 'stuff';
+    var func = function () {
+        return value;
+    };
+    var spy = Edgar.createSpy(obj, 'foo', func).andInvoke();
 
-	obj.foo();
-	assert.equal(spy.returnedWith(), value, 'function was invoked');
+    obj.foo();
+    assert.equal(spy.returnedWith(), value, 'function was invoked');
 });
 
-test('No mocking - multiple calls', function(assert) {
-	var value = 'stuff';
-	obj.foo = function() { return value; };
-	var spy = Edgar.createSpy(obj, 'foo').andExecute();
+test('No mocking - multiple calls', function (assert) {
+    var value = 'stuff';
+    obj.foo = function () {
+        return value;
+    };
+    var spy = Edgar.createSpy(obj, 'foo').andExecute();
 
-	obj.foo();
+    obj.foo();
 
-	var value2 = value;
-	value = 'things';
+    var value2 = value;
+    value = 'things';
 
-	obj.foo();
+    obj.foo();
 
-	assert.equal(spy.returnedWith(0), value2, 'func was executed');
-	assert.equal(spy.returnedWith(1), value, 'new value was returned');
-	assert.equal(spy.returnedWith(), value, 'returnedWith returns most recent call if no id is provided');
+    assert.equal(spy.returnedWith(0), value2, 'func was executed');
+    assert.equal(spy.returnedWith(1), value, 'new value was returned');
+    assert.equal(spy.returnedWith(), value, 'returnedWith returns most recent call if no id is provided');
 });
 
 module('Context Tracking', { setup: setup });
 
 test('Single call', function (assert) {
-	var spy = Edgar.createSpy(obj, 'foo');
+    var spy = Edgar.createSpy(obj, 'foo');
 
-	obj.foo();
+    obj.foo();
 
-	assert.equal(spy.getContext(), obj, 'obj used as default context');
+    assert.equal(spy.getContext(), obj, 'obj used as default context');
 });
 
 test('Single call using call()', function (assert) {
-	var spy = Edgar.createSpy(obj, 'foo'),
-		obj2 = {};
+    var spy = Edgar.createSpy(obj, 'foo');
+    var obj2 = {};
 
-	obj.foo.call(obj2);
+    obj.foo.call(obj2);
 
-	assert.equal(spy.getContext(), obj2, 'obj2 used as context passed from call()');
+    assert.equal(spy.getContext(), obj2, 'obj2 used as context passed from call()');
 });
 
 test('Single call using apply()', function (assert) {
-	var spy = Edgar.createSpy(obj, 'foo'),
-		obj2 = {};
+    var spy = Edgar.createSpy(obj, 'foo');
+    var obj2 = {};
 
-	obj.foo.apply(obj2);
+    obj.foo.apply(obj2);
 
-	assert.equal(spy.getContext(), obj2, 'obj2 used as context passed from apply()');
+    assert.equal(spy.getContext(), obj2, 'obj2 used as context passed from apply()');
 });
 
 test('Multiple calls - one basic, one apply', function (assert) {
-	var spy = Edgar.createSpy(obj, 'foo'),
-		obj2 = {};
+    var spy = Edgar.createSpy(obj, 'foo');
+    var obj2 = {};
 
-	obj.foo();
-	obj.foo.apply(obj2);
+    obj.foo();
+    obj.foo.apply(obj2);
 
-	assert.equal(spy.getContext(0), obj, 'obj used as context for first call');
-	assert.equal(spy.getContext(), obj2, 'obj2 used as context for second call');
+    assert.equal(spy.getContext(0), obj, 'obj used as context for first call');
+    assert.equal(spy.getContext(), obj2, 'obj2 used as context for second call');
 });
 
 test('Multiple calls - one call, one apply', function (assert) {
-	var spy = Edgar.createSpy(obj, 'foo'),
-		obj2 = {},
-		obj3 = {bar: function() {}};
+    var spy = Edgar.createSpy(obj, 'foo');
+    var obj2 = {};
+    var obj3 = {
+        bar: function () {}
+    };
 
-	obj.foo.call(obj2);
-	obj.foo.apply(obj3);
+    obj.foo.call(obj2);
+    obj.foo.apply(obj3);
 
-	assert.equal(spy.getContext(0), obj2, 'obj2 used as context for first call');
-	assert.equal(spy.getContext(), obj3, 'obj3 used as context for second call');
+    assert.equal(spy.getContext(0), obj2, 'obj2 used as context for first call');
+    assert.equal(spy.getContext(), obj3, 'obj3 used as context for second call');
 });
 
 test('Context passing - Invoke', function (assert) {
-	var self,
-		spy = Edgar.createSpy(obj, 'foo', function() { self = this; }).andInvoke();
+    var self,
+        spy = Edgar.createSpy(obj, 'foo', function () {
+            self = this;
+        }).andInvoke();
 
-	obj.foo();
+    obj.foo();
 
-	assert.equal(self, obj, 'obj passed to invoked method');
+    assert.equal(self, obj, 'obj passed to invoked method');
 });
 
 test('Context passing with call() - Invoke', function (assert) {
-	var self,
-		spy = Edgar.createSpy(obj, 'foo', function() { self = this; }).andInvoke(),
-		obj2 = {};
+    var self,
+        spy = Edgar.createSpy(obj, 'foo', function () {
+            self = this;
+        }).andInvoke(),
+        obj2 = {};
 
-	obj.foo.call(obj2);
+    obj.foo.call(obj2);
 
-	assert.equal(self, obj2, 'obj2 passed to invoked method');
+    assert.equal(self, obj2, 'obj2 passed to invoked method');
 });
 
 test('Context passing with apply() - Invoke', function (assert) {
-	var self,
-		spy = Edgar.createSpy(obj, 'foo', function() { self = this; }).andInvoke(),
-		obj2 = {};
+    var self,
+        spy = Edgar.createSpy(obj, 'foo', function () {
+            self = this;
+        }).andInvoke(),
+        obj2 = {};
 
-	obj.foo.apply(obj2);
+    obj.foo.apply(obj2);
 
-	assert.equal(self, obj2, 'obj2 passed to invoked method');
+    assert.equal(self, obj2, 'obj2 passed to invoked method');
 });
 
 test('Context passing - Execute', function (assert) {
-	var self;
-	obj.foo = function() {
-		self = this;
-	};
-	var spy = Edgar.createSpy(obj, 'foo').andExecute();
+    var self;
+    obj.foo = function () {
+        self = this;
+    };
+    var spy = Edgar.createSpy(obj, 'foo').andExecute();
 
-	obj.foo();
+    obj.foo();
 
-	assert.equal(self, obj, 'obj passed to executed method');
+    assert.equal(self, obj, 'obj passed to executed method');
 });
 
 test('Context passing with call() - Execute', function (assert) {
-	var self;
-	obj.foo = function() {
-		self = this;
-	};
-	var spy = Edgar.createSpy(obj, 'foo').andExecute(),
-		obj2 = {};
+    var self;
+    obj.foo = function () {
+        self = this;
+    };
+    var spy = Edgar.createSpy(obj, 'foo').andExecute(),
+        obj2 = {};
 
-	obj.foo.call(obj2);
+    obj.foo.call(obj2);
 
-	assert.equal(self, obj2, 'obj2 passed to executed method');
+    assert.equal(self, obj2, 'obj2 passed to executed method');
 });
 
 test('Context passing with apply() - Execute', function (assert) {
-	var self;
-	obj.foo = function() {
-		self = this;
-	};
-	var spy = Edgar.createSpy(obj, 'foo').andExecute(),
-		obj2 = {};
+    var self;
+    obj.foo = function () {
+        self = this;
+    };
+    var spy = Edgar.createSpy(obj, 'foo').andExecute(),
+        obj2 = {};
 
-	obj.foo.apply(obj2);
+    obj.foo.apply(obj2);
 
-	assert.equal(self, obj2, 'obj2 passed to executed method');
+    assert.equal(self, obj2, 'obj2 passed to executed method');
 });
 
 module('Utility Methods', { setup: setup });
 
-test('Reset - resets call arrays', function(assert) {
-	var spy = Edgar.createSpy(obj, 'foo');
+test('Reset - resets call arrays', function (assert) {
+    var spy = Edgar.createSpy(obj, 'foo');
 
-	obj.foo();
+    obj.foo();
 
-	var self = spy.reset();
+    var self = spy.reset();
 
-	assert.equal(self, spy, 'returns itself from reset');
-	assert.ok(!spy.called(), 'no calls left after reset');
+    assert.equal(self, spy, 'returns itself from reset');
+    assert.ok(!spy.called(), 'no calls left after reset');
 });
 
-test('Release - stops spying on method and returns original functionality', function(assert) {
-	var value = 'stuff',
-		spy = Edgar.createSpy(obj, 'foo', value),
-		result = obj.foo();
+test('Release - stops spying on method and returns original functionality', function (assert) {
+    var value = 'stuff';
+    var spy = Edgar.createSpy(obj, 'foo', value);
+    var result = obj.foo();
 
-	assert.equal(result, value, 'spy is working');
-	assert.equal(spy.called(), 1, 'spy had one call');
+    assert.equal(result, value, 'spy is working');
+    assert.equal(spy.called(), 1, 'spy had one call');
 
-	spy.release();
+    spy.release();
 
-	result = obj.foo();
-	assert.notEqual(result, value, 'original method executes');
-	assert.equal(spy.called(), 1, 'spy still has one call, because the method was released');
+    result = obj.foo();
+    assert.notEqual(result, value, 'original method executes');
+    assert.equal(spy.called(), 1, 'spy still has one call, because the method was released');
 });
 
-test('Resume - resumes spying on method', function(assert) {
-	var value = 'stuff',
-		spy = Edgar.createSpy(obj, 'foo', value),
-		result = obj.foo();
+test('Resume - resumes spying on method', function (assert) {
+    var value = 'stuff';
+    var spy = Edgar.createSpy(obj, 'foo', value);
+    var result = obj.foo();
 
-	spy.release();
+    spy.release();
 
-	result = obj.foo();
-	assert.notEqual(result, value, 'original method executes');
-	assert.equal(spy.called(), 1, 'spy only has one call, because the method was released');
+    result = obj.foo();
+    assert.notEqual(result, value, 'original method executes');
+    assert.equal(spy.called(), 1, 'spy only has one call, because the method was released');
 
-	spy.resume();
-	result = obj.foo();
-	assert.equal(result, value, 'spy mock was restored');
-	assert.equal(spy.called(), 2, 'spy registered a second call after restore');
+    spy.resume();
+    result = obj.foo();
+    assert.equal(result, value, 'spy mock was restored');
+    assert.equal(spy.called(), 2, 'spy registered a second call after restore');
 });
 
-//test('', function(assert) {
-//
-//});
+module('Edgar utils', {});
 
-//test('', function(assert) {
-//
-//});
+test('resetQUnit - resets spies for QUnit tests', function (assert) {
+    var doneSpy = Edgar.createSpy(QUnit, 'testDone');
+    var releaseSpy = Edgar.createSpy(Edgar, 'releaseAll');
+    var removeSpy = Edgar.createSpy(Edgar, 'removeSpies');
+
+    Edgar.resetQUnit(QUnit);
+    assert.ok(doneSpy.called(), 'called QUnit.testDone()');
+
+    var args = doneSpy.calledWith();
+    assert.equal(args.length, 1, 'passed single argument to testDone');
+
+    var callback = args[0];
+    assert.equal(typeof callback, 'function', 'passed callback to testDone');
+
+    callback();
+    assert.ok(releaseSpy.called(), 'releaseAll was called');
+    assert.ok(removeSpy.called(), 'removeSpies was called');
+
+    // Manual cleanup because these are the automated cleanup methods
+    doneSpy.release();
+    releaseSpy.release();
+    removeSpy.release();
+});
+
+test('resetQUnit - resets spies for Mocha tests', function (assert) {
+    var mocha = {}; // mocha doesn't exist in global scope b/c we are using QUnit
+    var afterSpy = Edgar.createSpy(mocha, 'afterEach');
+    var releaseSpy = Edgar.createSpy(Edgar, 'releaseAll');
+    var removeSpy = Edgar.createSpy(Edgar, 'removeSpies');
+
+    Edgar.resetMocha(mocha);
+    assert.ok(afterSpy.called(), 'called QUnit.testDone()');
+
+    var args = afterSpy.calledWith();
+    assert.equal(args.length, 1, 'passed single argument to testDone');
+
+    var callback = args[0];
+    assert.equal(typeof callback, 'function', 'passed callback to testDone');
+
+    callback();
+    assert.ok(releaseSpy.called(), 'releaseAll was called');
+    assert.ok(removeSpy.called(), 'removeSpies was called');
+
+    // Manual cleanup because these are the automated cleanup methods
+    afterSpy.release();
+    releaseSpy.release();
+    removeSpy.release();
+});
