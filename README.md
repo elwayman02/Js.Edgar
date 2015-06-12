@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/elwayman02/Js.Edgar.svg?branch=master)](https://travis-ci.org/elwayman02/Js.Edgar)
 [![Code Climate](https://codeclimate.com/github/elwayman02/Js.Edgar/badges/gpa.svg)](https://codeclimate.com/github/elwayman02/Js.Edgar)
 [![Codacy Badge](https://www.codacy.com/project/badge/79d961f5cd8d4c3d9faf4df1f3a6d5ea)](https://www.codacy.com/app/hawker-jordan/Js-Edgar)
-![Dependencies](https://david-dm.org/elwayman02/js.edgar.svg)
+[![Dependency Status](https://www.versioneye.com/user/projects/557386d43363340020000002/badge.svg?style=flat)](https://www.versioneye.com/user/projects/557386d43363340020000002)
 [![Join the chat at https://gitter.im/elwayman02/Js.Edgar](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/elwayman02/Js.Edgar?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Lightweight Spy/Mock Library for JavaScript
@@ -326,9 +326,28 @@ test('Single call using call()', function (assert) {
 
 As with the previous APIs, passing a call id to getContext is optional; it will return the most recent call by default.
 
-## Releasing Spies
+## Cleanup
 
-As mentioned previously, Js.Edgar will proactively release all spies between QUnit or Mocha tests.  However, if you are using another framework or run into any other scenario where you need to make sure original functionality is restored, just call `Spy.release()`!
+Since spies override existing objects in your code (especially if you are messing with globals), it's important to make sure they get cleaned up after each test completes. As mentioned previously, Js.Edgar will proactively release all spies between QUnit or Mocha tests. 
+If QUnit or mocha are not accessible as global variables in your project, you can call the following methods and pass them the object accordingly:
+
+```javascript
+Edgar.setupQUnitCleanup(QUnit);
+
+Edgar.setupMochaCleanup(mocha);
+```
+
+If you are using another testing framework and need to integrate it, please submit a pull request to enable it in Js.Edgar!
+Simply call the following methods in the post-test hook (or after an individual test to cleanup all spies):
+
+```javascript
+Edgar.releaseAll();
+Edgar.removeSpies();
+```
+
+### Releasing Spies
+
+All spies have a `release()` method that allow you to cleanup an individual spy
 
 ```javascript
 test('Release - stops spying on method and returns original functionality', function(assert) {
@@ -349,7 +368,7 @@ test('Release - stops spying on method and returns original functionality', func
 
 After `release()` is called, no further calls to the method will be tracked and it will execute normally, as if the Spy had never been created.  The Spy will still have any data it collected up to that point, in case you should need it.
 
-## Resetting Spies
+### Resetting Spies
 
 You can reset a Spy and wipe out its tracked calls by calling `reset()`.  Once reset has been called, any further calls to the spies method will still be tracked, but previous calls will have been lost.
 
@@ -366,7 +385,7 @@ test('Reset - resets call array and returns existing calls', function(assert) {
 });
 ```
 
-## Resuming Spies
+### Resuming Spies
 
 If you have released a Spy, you can resume spying on the method by simply calling `resume()`.
 
