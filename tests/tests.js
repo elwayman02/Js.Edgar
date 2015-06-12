@@ -453,12 +453,12 @@ test('Resume - resumes spying on method', function (assert) {
 
 module('Edgar utils', {});
 
-test('resetQUnit - resets spies for QUnit tests', function (assert) {
+test('setupQUnitCleanup - resets spies for QUnit tests', function (assert) {
     var doneSpy = Edgar.createSpy(QUnit, 'testDone');
     var releaseSpy = Edgar.createSpy(Edgar, 'releaseAll');
     var removeSpy = Edgar.createSpy(Edgar, 'removeSpies');
 
-    Edgar.resetQUnit(QUnit);
+    Edgar.setupQUnitCleanup(QUnit);
     assert.ok(doneSpy.called(), 'called QUnit.testDone()');
 
     var args = doneSpy.calledWith();
@@ -477,13 +477,13 @@ test('resetQUnit - resets spies for QUnit tests', function (assert) {
     removeSpy.release();
 });
 
-test('resetQUnit - resets spies for Mocha tests', function (assert) {
+test('setupMochaCleanup - resets spies for Mocha tests', function (assert) {
     var mocha = {}; // mocha doesn't exist in global scope b/c we are using QUnit
     var afterSpy = Edgar.createSpy(mocha, 'afterEach');
     var releaseSpy = Edgar.createSpy(Edgar, 'releaseAll');
     var removeSpy = Edgar.createSpy(Edgar, 'removeSpies');
 
-    Edgar.resetMocha(mocha);
+    Edgar.setupMochaCleanup(mocha);
     assert.ok(afterSpy.called(), 'called QUnit.testDone()');
 
     var args = afterSpy.calledWith();

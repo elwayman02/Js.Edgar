@@ -132,7 +132,7 @@
         /**
          * Setup cleanup callback for QUnit tests
          */
-        resetQUnit: function (qunitObj) {
+        setupQUnitCleanup: function (qunitObj) {
             qunitObj.testDone(function () {
                 Edgar.releaseAll();
                 Edgar.removeSpies();
@@ -142,7 +142,7 @@
         /**
          * Setup cleanup callback for Mocha tests
          */
-        resetMocha: function (mochaObj) {
+        setupMochaCleanup: function (mochaObj) {
             mochaObj.afterEach(function () {
                 Edgar.releaseAll();
                 Edgar.removeSpies();
@@ -363,11 +363,11 @@
     // };
 
     if (typeof QUnit !== 'undefined') {
-        Edgar.resetQUnit(QUnit);
+        Edgar.setupQUnitCleanup(QUnit);
     }
 
     if (typeof mocha !== 'undefined') {
-        Edgar.resetMocha(mocha);
+        Edgar.setupMochaCleanup(mocha);
     }
 
     return Edgar;
