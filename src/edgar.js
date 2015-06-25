@@ -2,8 +2,9 @@
  * Js.Edgar is a lightweight Spy/Mock library for testing JavaScript.
  *
  * @package Js.Edgar
- * @version 1.0.2
+ * @version 1.0.3
  * @author  Jordan Hawker <hawker.jordan@gmail.com>
+ *          www.JordanHawker.com
  * @license MIT
  */
 (function (root, factory) {
@@ -25,8 +26,8 @@
         /**
          * Adds the Spy to a hash so it is accessible later when needed
          *
-         * @param {Spy} spy The Spy to be tracked
-         * @param {String} method The name of the method the Spy is watching
+         * @param {Spy} spy - The Spy to be tracked
+         * @param {string} method - The name of the method the Spy is watching
          */
         addSpy: function (spy, method) {
             var spies = this.spies[method];
@@ -41,8 +42,8 @@
         /**
          * Retrieves a Spy from the hash lookup
          *
-         * @param {Object} obj The object being watched
-         * @param {String} method The name of the method being watched
+         * @param {object} obj - The object being watched
+         * @param {string} method - The name of the method being watched
          * @returns {Spy} The Spy that corresponds to the given object/method
          */
         getSpy: function (obj, method) {
@@ -63,9 +64,9 @@
         /**
          * External API to create a Spy
          *
-         * @param {Object} obj The object to watch
-         * @param {String} method The name of the method to watch
-         * @param {*} [Value] A mock value to return or method to invoke
+         * @param {object} obj - The object to watch
+         * @param {string} method - The name of the method to watch
+         * @param {*} [value] - A mock value to return or method to invoke
          * @returns {Spy} A Spy watching the given object/method
          */
         createSpy: function (obj, method, value) {
@@ -73,7 +74,7 @@
             var spy;
 
             if (type === 'undefined') { // Create a callback
-                throw 'Mocking without objects is not yet supported';
+                throw 'Mocking without objects is not yet supported' + (typeof method === 'string' ? (': ' + method) : '');
                 // return this.createMock(obj);
             } else if ((type === 'object' && obj !== null) || type === 'function') {
                 if (typeof method === 'string') { // Create a normal spy
@@ -149,17 +150,16 @@
             });
         }
     };
-
-    /**
-     * Spy constructor
-     *
-     * @param {Object} obj The object to watch
-     * @param {String} method The name of the method to watch
-     * @param {*} [value] A mock value to return or method to invoke
-     * @constructor
-     */
     Edgar.Spy = (function () {
 
+        /**
+         * Spy constructor
+         *
+         * @param {Object} obj - The object to watch
+         * @param {String} method - The name of the method to watch
+         * @param {*} [value] - A mock value to return or method to invoke
+         * @constructor
+         */
         function Spy(obj, method, value) {
             if (!(this instanceof Spy)) {
                 return new Spy(obj, method, value);
@@ -226,7 +226,7 @@
             /**
              * Setup the Spy to mock the method being watched
              *
-             * @param {*} [value] The value to return/invoke for the mock
+             * @param {*} [value] - The value to return/invoke for the mock
              * @returns {Spy} Itself
              */
             self.andMock = self.startMocking = function (value) {
@@ -240,7 +240,7 @@
             /**
              * Find out how many calls have been made to the watched method
              *
-             * @returns {Number} The number of calls made
+             * @returns {number} The number of calls made
              */
             self.called = function () {
                 return self.calls.length;
@@ -250,8 +250,8 @@
              * Get the arguments passed to the watched method,
              * defaulting to the most recent call if no id is passed
              *
-             * @param {Number} [id] The id of the call, in case of multiple
-             * @returns {Array} The arguments array for that call
+             * @param {number} [id] - The id of the call, in case of multiple
+             * @returns {array} The arguments array for that call
              */
             self.calledWith = function (id) {
                 if (id !== undefined && id !== null) {
@@ -269,7 +269,7 @@
              * Get the return value passed from Spy.mock(),
              * defaulting to the most recent call if no id is passed
              *
-             * @param {Number} [id] The id of the call, in case of multiple
+             * @param {number} [id] The id of the call, in case of multiple
              * @returns {*} The return value for that call
              */
             self.returnedWith = function (id) {
@@ -287,7 +287,7 @@
              * Get the context of 'this' passed to Spy.mock(),
              * defaulting to the spied object if 'this' was the Spy itself
              *
-             * @param {Number} [id] The id of the call, in case of multiple
+             * @param {number} [id] The id of the call, in case of multiple
              * @returns {*} The context of that call
              */
             self.getContext = function (id) {

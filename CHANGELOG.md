@@ -2,6 +2,13 @@
 
 ### Master
 
+### 1.0.3 (June 25, 2015)
+* Improve error messaging
+* Update docs to more accurate JSDoc-style
+
+### 1.0.2 (June 11, 2015)
+* [FEATURE] Expose cleanup methods to non-global testing frameworks
+
 ### 1.0.1 (May 15, 2015)
 * [FEATURE] Allow mocking of methods on the function prototype
 
