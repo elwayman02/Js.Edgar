@@ -1,6 +1,7 @@
 # Js.Edgar
 
 [![Build Status](https://travis-ci.org/elwayman02/Js.Edgar.svg?branch=master)](https://travis-ci.org/elwayman02/Js.Edgar)
+[![npm version](https://badge.fury.io/js/js.edgar.svg)](http://badge.fury.io/js/js.edgar)
 [![Code Climate](https://codeclimate.com/github/elwayman02/Js.Edgar/badges/gpa.svg)](https://codeclimate.com/github/elwayman02/Js.Edgar)
 [![Codacy Badge](https://www.codacy.com/project/badge/79d961f5cd8d4c3d9faf4df1f3a6d5ea)](https://www.codacy.com/app/hawker-jordan/Js-Edgar)
 [![Dependency Status](https://www.versioneye.com/user/projects/557386d43363340020000002/badge.svg?style=flat)](https://www.versioneye.com/user/projects/557386d43363340020000002)
