@@ -85,7 +85,7 @@ explanation of why you made the changes you made. For new features make sure to
 explain a standard use case to us.
 
 We try to be quick about responding to tickets but sometimes we get a bit
-backlogged. If the response is slow, try contacting Jordan Hawker directly (hawker.jordan (at) gmail.com)
+backlogged. If the response is slow, try contacting [Jordan Hawker](emailto:hawker.jordan@gmail.com) directly.
 
 Some things that will increase the chance that your pull request is accepted:
 
