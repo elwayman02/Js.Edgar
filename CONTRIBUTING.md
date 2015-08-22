@@ -2,8 +2,10 @@
 
 This is the issue tracker for Js.Edgar. We use this site
 to collect and track bugs and discussions of new features. If you are having
-difficulties using Js.Edgar or have a question about usage please create an issue or ask a
-question on Stack Overflow: http://stackoverflow.com/questions/ask?tags=Js.Edgar+Edgar
+difficulties using Js.Edgar or have a question about usage please 
+[create an issue](https://github.com/elwayman02/Js.Edgar/issues/) 
+or ask a question on 
+[Stack Overflow](http://stackoverflow.com/questions/ask?tags=Js.Edgar+Edgar)
 
 # Issues
 
