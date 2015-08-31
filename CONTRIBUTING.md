@@ -2,8 +2,10 @@
 
 This is the issue tracker for Js.Edgar. We use this site
 to collect and track bugs and discussions of new features. If you are having
-difficulties using Js.Edgar or have a question about usage please create an issue or ask a
-question on Stack Overflow: http://stackoverflow.com/questions/ask?tags=Js.Edgar+Edgar
+difficulties using Js.Edgar or have a question about usage please 
+[create an issue](https://github.com/elwayman02/Js.Edgar/issues/) 
+or ask a question on 
+[Stack Overflow](http://stackoverflow.com/questions/ask?tags=Js.Edgar+Edgar)
 
 # Issues
 
@@ -83,7 +85,7 @@ explanation of why you made the changes you made. For new features make sure to
 explain a standard use case to us.
 
 We try to be quick about responding to tickets but sometimes we get a bit
-backlogged. If the response is slow, try contacting Jordan Hawker directly (hawker.jordan (at) gmail.com)
+backlogged. If the response is slow, try contacting [Jordan Hawker](mailto:hawker.jordan@gmail.com) directly.
 
 Some things that will increase the chance that your pull request is accepted:
 
