@@ -17,7 +17,7 @@
 	    "test": "qunit-cli tests/tests.js"
 	},
 	"devDependencies": {
-		"qunitjs": "~2.3.0",
+		"qunitjs": "~2.4.1",
 		"qunit-cli": "~0.2.0"
 	},
 	"bugs": {
